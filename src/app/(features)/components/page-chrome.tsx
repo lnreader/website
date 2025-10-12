@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
+import { useState } from "react";
+import type { FocusEvent, MouseEvent } from "react";
+import { ChevronDown } from "lucide-react";
 
 import NavigationDrawer from "./navigation-drawer";
 
@@ -11,14 +14,24 @@ interface PageChromeProps {
   readonly containerClassName?: string;
 }
 
-const navigationLinks: Array<{
-  readonly href: string;
+interface NavigationLink {
   readonly label: string;
-}> = [
+  readonly href?: string;
+  readonly children?: ReadonlyArray<{
+    readonly href: string;
+    readonly label: string;
+  }>;
+}
+
+const navigationLinks: ReadonlyArray<NavigationLink> = [
   { href: "/", label: "Features" },
   { href: "/plugins", label: "Plugins" },
   { href: "/releases", label: "Releases" },
   { href: "/docs/getting-started", label: "Docs" },
+  {
+    label: "Tools",
+    children: [{ href: "/tools/backup-upgrader", label: "Backup Upgrader" }],
+  },
   { href: "https://github.com/LNReader/lnreader", label: "GitHub" },
 ];
 
@@ -29,12 +42,22 @@ const footerLinks: Array<{ readonly href: string; readonly label: string }> = [
   { href: "https://discord.gg/u2pTuQ8", label: "Discord" },
 ];
 
-const stableNavLinks = navigationLinks.filter(({ href }) =>
-  href.startsWith("/")
+const stableNavLinks = navigationLinks.filter(
+  (link): link is NavigationLink & { readonly href: string } =>
+    typeof link.href === "string" && link.href.startsWith("/")
 );
 
-const externalNavLinks = navigationLinks.filter(({ href }) =>
-  href.startsWith("http")
+const toolsNavLink = navigationLinks.find(
+  (
+    link
+  ): link is NavigationLink & {
+    readonly children: NavigationLink["children"];
+  } => Array.isArray(link.children) && link.children.length > 0
+);
+
+const externalNavLinks = navigationLinks.filter(
+  (link): link is NavigationLink & { readonly href: string } =>
+    typeof link.href === "string" && link.href.startsWith("http")
 );
 
 const currentYear = new Date().getFullYear();
@@ -44,6 +67,21 @@ export default function PageChrome({
   containerClassName,
 }: PageChromeProps) {
   const pathname = usePathname();
+  const [toolsOpen, setToolsOpen] = useState(false);
+
+  const handleToolsBlur = (event: FocusEvent<HTMLDivElement>) => {
+    const nextFocus = event.relatedTarget as Node | null;
+    if (!event.currentTarget.contains(nextFocus)) {
+      setToolsOpen(false);
+    }
+  };
+
+  const handleToolsMouseLeave = (event: MouseEvent<HTMLDivElement>) => {
+    const nextTarget = event.relatedTarget as Node | null;
+    if (!event.currentTarget.contains(nextTarget)) {
+      setToolsOpen(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -82,6 +120,67 @@ export default function PageChrome({
               </Link>
             );
           })}
+          {toolsNavLink ? (
+            <div
+              className="relative"
+              onMouseEnter={() => setToolsOpen(true)}
+              onMouseLeave={handleToolsMouseLeave}
+              onBlur={handleToolsBlur}
+            >
+              <button
+                type="button"
+                onClick={() => setToolsOpen((current) => !current)}
+                className={clsx(
+                  "flex items-center gap-1 px-3.5 py-2 rounded-md transition-all duration-150 text-[color-mix(in_srgb,_var(--color-foreground)_68%,_transparent)] hover:text-[var(--color-foreground)] hover:bg-[rgba(16,110,129,0.08)]",
+                  toolsNavLink.children?.some(({ href }) =>
+                    pathname.startsWith(`${href}`)
+                  ) &&
+                    "bg-[var(--color-accent-soft)] text-[var(--color-accent-strong)]"
+                )}
+                aria-haspopup="menu"
+                aria-expanded={toolsOpen}
+              >
+                {toolsNavLink.label}
+                <ChevronDown
+                  size={16}
+                  className={clsx(
+                    "transition-transform",
+                    toolsOpen ? "rotate-180" : "rotate-0"
+                  )}
+                />
+              </button>
+              <div
+                className="absolute left-0 right-0 top-full h-3"
+                aria-hidden="true"
+                onMouseEnter={() => setToolsOpen(true)}
+              />
+              <div
+                className={clsx(
+                  "absolute right-0 top-[calc(100%+0.375rem)] z-50 w-56 rounded-md border border-[color-mix(in_srgb,_var(--color-border)_70%,_transparent)] bg-[color-mix(in_srgb,_var(--color-surface)_96%,_transparent)] shadow-lg transition-all",
+                  toolsOpen
+                    ? "opacity-100 visible"
+                    : "pointer-events-none opacity-0 invisible"
+                )}
+                role="menu"
+                aria-label="Tools"
+              >
+                <ul className="flex flex-col py-2">
+                  {toolsNavLink.children?.map(({ href, label }) => (
+                    <li key={href}>
+                      <Link
+                        href={href}
+                        onClick={() => setToolsOpen(false)}
+                        className="block px-4 py-2 text-sm text-[color-mix(in_srgb,_var(--color-foreground)_78%,_transparent)] hover:text-[var(--color-foreground)]"
+                        role="menuitem"
+                      >
+                        {label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          ) : null}
           {externalNavLinks.map(({ href, label }) => (
             <a
               key={href}
@@ -110,7 +209,20 @@ export default function PageChrome({
             Download
           </Link>
 
-          <NavigationDrawer links={[...stableNavLinks, ...externalNavLinks]} />
+          <NavigationDrawer
+            links={[
+              ...stableNavLinks,
+              ...(toolsNavLink?.children ?? []),
+              ...externalNavLinks,
+            ]
+              .filter(
+                (
+                  link
+                ): link is { readonly href: string; readonly label: string } =>
+                  typeof link.href === "string"
+              )
+              .map(({ href, label }) => ({ href, label }))}
+          />
         </div>
       </header>
 
