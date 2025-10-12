@@ -22,7 +22,7 @@ export default function NavigationDrawer({
         aria-expanded={open}
         aria-label="Toggle navigation"
         onClick={() => setOpen((current) => !current)}
-        className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-[color-mix(in_srgb,_var(--color-border)_70%,_transparent)] bg-[color-mix(in_srgb,_var(--color-surface)_70%,_transparent)] text-[var(--color-foreground)]"
+        className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[color-mix(in_srgb,_var(--color-border)_70%,_transparent)] bg-[color-mix(in_srgb,_var(--color-surface)_70%,_transparent)] text-[var(--color-foreground)] transition-colors hover:bg-[color-mix(in_srgb,_var(--color-surface)_60%,_transparent)]"
       >
         <Menu size={20} />
       </button>

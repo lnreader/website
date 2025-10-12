@@ -47,7 +47,7 @@ export default function PageChrome({
     <div className="min-h-screen flex flex-col">
       <header className="page-shell pt-9 pb-6 flex items-center justify-between gap-5">
         <Link href="/" className="group flex items-center gap-3">
-          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-[var(--color-accent-soft)] text-xl font-semibold text-[var(--color-accent-strong)] transition-colors">
+          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-sm bg-[var(--color-accent-soft)] text-xl font-semibold text-[var(--color-accent-strong)] transition-colors">
             読
           </span>
           <div className="flex flex-col">
@@ -96,7 +96,7 @@ export default function PageChrome({
         <div className="flex items-center gap-3">
           <Link
             href="/docs/getting-started"
-            className="md:hidden inline-flex items-center justify-center rounded-full border border-[color-mix(in_srgb,_var(--color-border)_70%,_transparent)] px-4 py-2 text-sm font-semibold text-[color-mix(in_srgb,_var(--color-foreground)_78%,_transparent)]"
+            className="md:hidden inline-flex items-center justify-center rounded-sm border border-[color-mix(in_srgb,_var(--color-border)_70%,_transparent)] bg-[color-mix(in_srgb,_var(--color-surface)_70%,_transparent)] px-4 py-2 text-sm font-semibold text-[var(--color-foreground)] transition-colors hover:bg-[color-mix(in_srgb,_var(--color-surface)_60%,_transparent)] hover:text-[var(--color-foreground)]"
           >
             Docs
           </Link>

@@ -5,7 +5,7 @@ import type { ReactElement } from "react";
 
 const metricCards = [
   {
-    label: "Extensions",
+    label: "Plugins",
     value: "200+",
     description: "Community-maintained sources ready to install",
   },

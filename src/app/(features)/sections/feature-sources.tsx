@@ -8,7 +8,7 @@ const sourceHighlights: Array<{
   {
     title: "Global catalogue",
     detail:
-      "200+ community-maintained extensions covering EN, JP, VN, FR, ES, and more.",
+      "200+ community-maintained plugins covering EN, JP, VN, FR, ES, and more.",
   },
   {
     title: "Self-host options",
