@@ -72,7 +72,7 @@ export default function FeatureHighlights(): ReactElement {
       <div className="grid gap-x-6 gap-y-4 md:grid-cols-2">
         {highlights.map(({ icon: Icon, title, description }) => (
           <article key={title} className="flex items-start gap-3">
-            <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-sm bg-[var(--color-accent-soft)] text-[var(--color-accent-strong)]">
+            <span className="mt-1 inline-flex h-8 w-8 items-center justify-center rounded-sm bg-[var(--color-accent-soft)] text-[var(--color-accent-strong)] shrink-0">
               <Icon strokeWidth={1.5} className="h-4 w-4" />
             </span>
             <div className="flex flex-col gap-1">

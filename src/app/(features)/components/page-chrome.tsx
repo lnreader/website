@@ -16,6 +16,7 @@ const navigationLinks: Array<{
   readonly label: string;
 }> = [
   { href: "/", label: "Features" },
+  { href: "/plugins", label: "Plugins" },
   { href: "/releases", label: "Releases" },
   { href: "/docs/getting-started", label: "Docs" },
   { href: "https://github.com/LNReader/lnreader", label: "GitHub" },
@@ -24,6 +25,7 @@ const navigationLinks: Array<{
 const footerLinks: Array<{ readonly href: string; readonly label: string }> = [
   { href: "https://github.com/LNReader/lnreader", label: "Contribute" },
   { href: "https://github.com/LNReader/lnreader/releases", label: "Releases" },
+  { href: "https://www.reddit.com/r/LNReader/", label: "Reddit" },
   { href: "https://discord.gg/u2pTuQ8", label: "Discord" },
 ];
 
