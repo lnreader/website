@@ -11,9 +11,9 @@ const sourceHighlights: Array<{
       "200+ community-maintained plugins covering EN, JP, VN, FR, ES, and more.",
   },
   {
-    title: "Self-host options",
+    title: "Self-hosted plugins",
     detail:
-      "Run your own parser or connect to Tachiyomi sources using the shared spec.",
+      "Host your own plugin repository or fork existing plugins to tailor your sources.",
   },
   {
     title: "One-tap updates",
@@ -28,12 +28,12 @@ export default function FeatureSources(): ReactElement {
       <div className="flex flex-col gap-2">
         <span className="badge">Sources</span>
         <h2 className="text-[1.85rem] font-semibold tracking-[-0.02em] text-balance">
-          Powered by open connectors maintained by the LNReader community
+          Powered by open plugins maintained by the LNReader community
         </h2>
         <p className="text-sm sm:text-base text-[color-mix(in_srgb,_var(--color-foreground)_68%,_transparent)] leading-relaxed">
-          Source connectors are shared with the Tachiyomi ecosystem while
-          respecting each provider’s terms. Install only what you need, audit
-          the code, and contribute improvements back.
+          Plugins mirror the Tachiyomi and Mihon experience while being built
+          specifically for LNReader. Install only what you need, audit the code,
+          and contribute improvements back.
         </p>
       </div>
 

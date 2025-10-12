@@ -17,7 +17,7 @@ const galleryItems: Array<{
   {
     title: "Library organization",
     description:
-      "Pin favourites, create smart shelves, and keep progress synced across devices.",
+      "Pin favourites, create smart shelves, and track reading progress in one place.",
   },
 ];
 
@@ -30,8 +30,8 @@ export default function FeatureGallery(): ReactElement {
           Designed like an editor, tuned for long-form reading
         </h2>
         <p className="text-sm sm:text-base text-[color-mix(in_srgb,_var(--color-foreground)_68%,_transparent)] leading-relaxed">
-          Think of LNReader as a portable workspace—panels, shortcuts, and
-          automation that stay lightweight on mobile.
+          LNReader is a focused light novel reader—quick shortcuts and
+          automation stay lightweight on mobile.
         </p>
       </div>
 

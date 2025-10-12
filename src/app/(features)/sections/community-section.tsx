@@ -7,9 +7,9 @@ const highlights = [
       "Feature requests and bug triage happen in the open on GitHub discussions and issues.",
   },
   {
-    title: "Cross-project bridges",
+    title: "Inspired evolution",
     description:
-      "We collaborate with Tachiyomi, Mihon, and other readers to share fixes and ideas.",
+      "We draw inspiration from Tachiyomi and Mihon while charting LNReader’s own roadmap.",
   },
   {
     title: "Inclusive moderation",
@@ -24,8 +24,7 @@ export default function CommunitySection(): ReactElement {
       <div className="flex flex-col gap-4">
         <span className="badge">Community</span>
         <h2 className="text-[1.85rem] font-semibold tracking-[-0.02em] text-balance">
-          Built together with translators, extension authors, and readers
-          worldwide
+          Built together with translators, plugin authors, and readers worldwide
         </h2>
         <p className="text-sm text-[color-mix(in_srgb,_var(--color-foreground)_70%,_transparent)] leading-relaxed">
           LNReader has been open source since day one. Join the Discord, share

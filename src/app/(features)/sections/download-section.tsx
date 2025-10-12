@@ -28,7 +28,7 @@ export default function DownloadSection(): ReactElement {
           Download LNReader
         </h2>
         <p className="text-sm sm:text-base text-[color-mix(in_srgb,_var(--color-foreground)_68%,_transparent)] leading-relaxed max-w-2xl">
-          Install the latest build and explore the docs to configure sources,
+          Install the latest build and explore the docs to configure plugins,
           automate backups, and join the community.
         </p>
       </div>

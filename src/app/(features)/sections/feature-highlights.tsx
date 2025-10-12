@@ -17,9 +17,9 @@ interface Highlight {
 const highlights: Highlight[] = [
   {
     icon: CloudDownload,
-    title: "Offline caching",
+    title: "Offline downloads",
     description:
-      "Preload chapters and sync reading history across sources so you never lose your spot.",
+      "Download chapters ahead of time and sync progress so you can keep reading anywhere.",
   },
   {
     icon: Palette,
@@ -29,9 +29,9 @@ const highlights: Highlight[] = [
   },
   {
     icon: FolderCog,
-    title: "Library rules",
+    title: "Custom categories",
     description:
-      "Group light novels by status, tags, or custom filters with automatic updates.",
+      "Build category collections and tune sort or filter rules to match how you read.",
   },
   {
     icon: Zap,
@@ -49,7 +49,7 @@ const highlights: Highlight[] = [
     icon: Sparkles,
     title: "Automation hooks",
     description:
-      "Backup, restore, or migrate between devices using community-maintained scripts.",
+      "Backup, restore, or migrate between devices with the built-in automation tools.",
   },
 ];
 

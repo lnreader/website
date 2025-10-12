@@ -8,83 +8,81 @@ sectionOrder: 100
 
 # Contributing to LNReader
 
-Contributions to **LNReader** are welcome and greatly appreciated! Follow this guide to prepare your workstation and ship your first change.
+LNReader thrives on community contributions. Whether you are fixing a typo, adding a plugin feature, or polishing the reader experience, this guide outlines the same workflow our core maintainers follow.
 
-## Setting up your environment
+## Before You Start
 
-After forking the repository to your GitHub account or organization, make sure your machine meets these requirements:
+Make sure your workstation can build and run the Android app:
 
-- **Node.js version 18 or newer**. For version management, we recommend [`nvm`](https://github.com/nvm-sh/nvm).
-- **Java SDK version 15 or newer**. You can optionally manage versions with [`jenv`](https://www.jenv.be/).
-- **Android SDK**. Download the tooling from [Android Studio](https://developer.android.com/studio).
+- **Node.js 18+** (use [`nvm`](https://github.com/nvm-sh/nvm) if you juggle versions)
+- **Java 15+** (optionally managed with [`jenv`](https://www.jenv.be/))
+- **Android SDK & platform tools** from [Android Studio](https://developer.android.com/studio)
 
-## Quick start steps
+## Set Up Your Fork
 
-1. Clone your fork:
+1. Fork the repository to your GitHub account.
+2. Clone your fork and install dependencies:
 
    ```bash
    git clone https://github.com/<your-username>/lnreader.git
-   ```
-
-2. Step into the repository:
-
-   ```bash
    cd lnreader
-   ```
-
-3. Install dependencies:
-
-   ```bash
    npm install
    ```
 
-4. Build the APK:
+3. Verify you can produce a release build (this also validates your toolchain):
 
    ```bash
    npm run buildRelease
    ```
 
-## Developing on Android
+If the Gradle build fails, confirm the Android SDK path and Java version are set correctly.
 
-You will need an Android device or emulator connected to your computer and an IDE such as VS Code.
+## Run LNReader Locally
 
-- **ADB (Android Debug Bridge)**: Install via the [Android Developer site](https://developer.android.com/studio/command-line/adb).
-- **IDE of your choice**: Any editor with React Native tooling works well.
-
-### Development steps
-
-1. Verify your Android device or emulator is connected:
+1. Connect an Android device (with USB debugging) or start an emulator.
+2. Confirm the device is visible to ADB:
 
    ```bash
    adb devices
    ```
 
-2. Start Metro for development:
+3. Start the Metro bundler:
 
    ```bash
    npm start
    ```
 
-3. Launch the app on Android in a new terminal:
+4. In another terminal, install and launch the app:
 
    ```bash
    npm run android
    ```
 
-To reload the app after making code changes, save your files and press `r` in the Metro terminal. The Android device or emulator reloads shortly after.
+Metro supports fast refresh—save a file, then press `r` in the Metro window if you need a manual reload.
 
-## Style and linting
+## Coding Workflow
 
-This codebase enforces linting rules with [ESLint](http://eslint.org/). Install an ESLint plugin for your editor to receive live feedback, or run the lint script manually:
+- Create feature branches off the latest `main`.
+- Keep pull requests focused and include screenshots or recordings for UI changes.
+- Reference related GitHub issues in commit messages and PR descriptions.
 
-```bash
-npm run lint
-```
+## Checks and Standards
 
-## Start contributing
+- **Linting**: Run ESLint locally before opening a PR.
 
-Ready to dive in? Fork the project and start building features, fixing bugs, or improving the documentation: [https://github.com/LNReader/lnreader/fork](https://github.com/LNReader/lnreader/fork).
+  ```bash
+  npm run lint
+  ```
 
-## Help translate LNReader
+- **Formatting**: Follow the existing TypeScript and React Native conventions. Configure your editor with Prettier/ESLint integration for consistent formatting.
+- **CI expectations**: Ensure your branch builds and lint checks pass; CI must be green before merge.
 
-We coordinate localization through [Crowdin](https://crowdin.com/project/lnreader). Create a free account, pick your language, and translate strings right from the browser—no setup required. The live progress badge shows how close each locale is to 100% coverage.
+## Where to Help
+
+- **Bug fixes**: Look for issues labelled `bug` or `help wanted` in GitHub.
+- **Plugins & sources**: Improve existing plugins or propose new ones in the [`lnreader-sources`](https://github.com/LNReader/lnreader-sources) repository.
+- **Documentation**: Refine guides like this one to make onboarding easier for the next contributor.
+
+## Localization
+
+We translate LNReader via [Crowdin](https://crowdin.com/project/lnreader). Create a free account, choose your language, and contribute strings directly in the browser—no development setup required. The project dashboard shows live translation coverage for every locale.
