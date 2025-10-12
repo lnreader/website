@@ -1,0 +1,86 @@
+---
+title: "Contributing"
+description: "Set up your environment and ship improvements to LNReader."
+section: "Guides"
+order: 3
+sectionOrder: 100
+---
+
+# Contributing to LNReader
+
+Contributions to **LNReader** are welcome and greatly appreciated! Follow this guide to prepare your workstation and ship your first change.
+
+## Setting up your environment
+
+After forking the repository to your GitHub account or organization, make sure your machine meets these requirements:
+
+- **Node.js version 18 or newer**. For version management, we recommend [`nvm`](https://github.com/nvm-sh/nvm).
+- **Java SDK version 15 or newer**. You can optionally manage versions with [`jenv`](https://www.jenv.be/).
+- **Android SDK**. Download the tooling from [Android Studio](https://developer.android.com/studio).
+
+## Quick start steps
+
+1. Clone your fork:
+
+   ```bash
+   git clone https://github.com/<your-username>/lnreader.git
+   ```
+
+2. Step into the repository:
+
+   ```bash
+   cd lnreader
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Build the APK:
+
+   ```bash
+   npm run buildRelease
+   ```
+
+## Developing on Android
+
+You will need an Android device or emulator connected to your computer and an IDE such as VS Code.
+
+- **ADB (Android Debug Bridge)**: Install via the [Android Developer site](https://developer.android.com/studio/command-line/adb).
+- **IDE of your choice**: Any editor with React Native tooling works well.
+
+### Development steps
+
+1. Verify your Android device or emulator is connected:
+
+   ```bash
+   adb devices
+   ```
+
+2. Start Metro for development:
+
+   ```bash
+   npm start
+   ```
+
+3. Launch the app on Android in a new terminal:
+
+   ```bash
+   npm run android
+   ```
+
+To reload the app after making code changes, save your files and press `r` in the Metro terminal. The Android device or emulator reloads shortly after.
+
+## Style and linting
+
+This codebase enforces linting rules with [ESLint](http://eslint.org/). Install an ESLint plugin for your editor to receive live feedback, or run the lint script manually:
+
+```bash
+npm run lint
+```
+
+## Start contributing
+
+Ready to dive in? Fork the project and start building features, fixing bugs, or improving the documentation: [https://github.com/LNReader/lnreader/fork](https://github.com/LNReader/lnreader/fork).

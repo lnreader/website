@@ -4,11 +4,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { clsx } from "clsx";
 
-import LogoMark from "./logo-mark";
 import NavigationDrawer from "./navigation-drawer";
 
 interface PageChromeProps {
   readonly children: React.ReactNode;
+  readonly containerClassName?: string;
 }
 
 const navigationLinks: Array<{
@@ -16,6 +16,7 @@ const navigationLinks: Array<{
   readonly label: string;
 }> = [
   { href: "/", label: "Features" },
+  { href: "/releases", label: "Releases" },
   { href: "/docs/getting-started", label: "Docs" },
   { href: "https://github.com/LNReader/lnreader", label: "GitHub" },
 ];
@@ -36,14 +37,19 @@ const externalNavLinks = navigationLinks.filter(({ href }) =>
 
 const currentYear = new Date().getFullYear();
 
-export default function PageChrome({ children }: PageChromeProps) {
+export default function PageChrome({
+  children,
+  containerClassName,
+}: PageChromeProps) {
   const pathname = usePathname();
 
   return (
     <div className="min-h-screen flex flex-col">
       <header className="page-shell pt-9 pb-6 flex items-center justify-between gap-5">
-        <Link href="/" className="flex items-center gap-3 group">
-          <LogoMark />
+        <Link href="/" className="group flex items-center gap-3">
+          <span className="flex h-9 w-9 items-center justify-center rounded-md bg-[var(--color-accent-soft)] text-xl font-semibold text-[var(--color-accent-strong)] transition-colors">
+            読
+          </span>
           <div className="flex flex-col">
             <span className="text-base font-semibold tracking-tight">
               LNReader
@@ -97,7 +103,7 @@ export default function PageChrome({ children }: PageChromeProps) {
 
           <Link
             href="https://github.com/LNReader/lnreader/releases"
-            className="hidden sm:inline-flex items-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 py-2 text-xs font-semibold tracking-tight text-white"
+            className="hidden sm:inline-flex items-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 py-2 text-xs font-semibold tracking-tight text-white transition-colors hover:bg-[var(--color-accent-strong)] hover:text-white"
           >
             Download
           </Link>
@@ -107,7 +113,12 @@ export default function PageChrome({ children }: PageChromeProps) {
       </header>
 
       <main className="flex-1 pb-20">
-        <div className="page-shell flex flex-col gap-18 md:gap-20">
+        <div
+          className={clsx(
+            "page-shell",
+            containerClassName ?? "flex flex-col gap-18 md:gap-20"
+          )}
+        >
           {children}
         </div>
       </main>
