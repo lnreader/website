@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  font-size: 15px;
+  --background: #f7f9fc;
+  --background-soft: #f1f4f9;
+  --surface: #ffffff;
+  --surface-muted: #f2f5fa;
+  --foreground: #172331;
+  --muted: #4f6276;
+  --accent: #106e81;
+  --accent-strong: #0f5a6a;
+  --accent-soft: rgba(16, 110, 129, 0.08);
+  --outline: rgba(18, 41, 60, 0.12);
+  --border: rgba(18, 41, 60, 0.12);
+  --shadow-soft: rgba(18, 41, 60, 0.05);
+  --radius-md: 0.35rem;
+  --radius-sm: 0.25rem;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-background-soft: var(--background-soft);
+  --color-foreground: var(--foreground);
+  --color-muted: var(--muted);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-soft: var(--accent-soft);
+  --color-outline: var(--outline);
+  --color-border: var(--border);
+  --radius-md: var(--radius-md);
+  --radius-sm: var(--radius-sm);
+  --shadow-soft: var(--shadow-soft);
+  --font-sans: var(--font-sans-base);
+  --font-mono: var(--font-mono-base);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --background: #0b1622;
+    --background-soft: #122230;
+    --surface: #172c3b;
+    --surface-muted: #1d3444;
+    --foreground: #e5f0f8;
+    --muted: #8ea3b5;
+    --accent: #2aa0b9;
+    --accent-strong: #16788f;
+    --accent-soft: rgba(42, 160, 185, 0.18);
+    --outline: rgba(36, 86, 104, 0.32);
+    --border: rgba(36, 86, 104, 0.34);
+    --shadow-soft: rgba(6, 18, 27, 0.55);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans-base), "Inter", "Segoe UI", system-ui,
+    -apple-system, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 150ms ease;
+}
+
+a:hover {
+  color: var(--color-accent-strong);
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+main {
+  width: 100%;
+}
+
+.page-shell {
+  margin: 0 auto;
+  width: min(980px, 100%);
+  padding-inline: clamp(1.5rem, 3vw + 1rem, 2.5rem);
+}
+
+.hero-grid {
+  display: grid;
+  gap: clamp(1.6rem, 3.2vw, 2.6rem);
+  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+  align-items: start;
+}
+
+.text-xs {
+  font-size: 0.75rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.12rem 0.45rem;
+  border-radius: 0.2rem;
+  font-size: 0.6rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  background: var(--color-accent-soft);
+  color: var(--color-accent-strong);
+}
+
+.docs-content {
+  display: grid;
+  gap: 1.15rem;
+  color: color-mix(in srgb, var(--color-foreground) 92%, transparent);
+}
+
+.docs-content h1 {
+  margin: 0;
+  font-size: clamp(2.3rem, 3.6vw, 2.8rem);
+  font-weight: 640;
+  letter-spacing: -0.02em;
+}
+
+.docs-content h2 {
+  margin-top: 2.4rem;
+  margin-bottom: 0.7rem;
+  font-size: clamp(1.55rem, 2.4vw, 1.9rem);
+  font-weight: 580;
+  color: color-mix(in srgb, var(--color-foreground) 86%, transparent);
+}
+
+.docs-content h3 {
+  margin-top: 1.9rem;
+  margin-bottom: 0.4rem;
+  font-size: clamp(1.16rem, 2vw, 1.38rem);
+  font-weight: 560;
+}
+
+.docs-content p {
+  margin: 0;
+  line-height: 1.7;
+  color: color-mix(in srgb, var(--color-foreground) 72%, transparent);
+}
+
+.docs-content ul,
+.docs-content ol {
+  margin: 0;
+  padding-left: 1.35rem;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.docs-content li {
+  color: color-mix(in srgb, var(--color-foreground) 70%, transparent);
+}
+
+.docs-content code {
+  font-family: var(--font-mono-base), "JetBrains Mono", monospace;
+  font-size: 0.88rem;
+  font-weight: 560;
+  padding: 0.18rem 0.48rem;
+  border-radius: 0.4rem;
+  background: var(--color-surface-muted);
+  border: 1px solid color-mix(in srgb, var(--color-border) 78%, transparent);
+}
+
+.docs-content pre {
+  margin: 0;
+  padding: 1.25rem;
+  border-radius: var(--radius-lg);
+  background: var(--color-surface-muted);
+  border: 1px solid color-mix(in srgb, var(--color-border) 74%, transparent);
+  overflow-x: auto;
+}
+
+.docs-content pre code {
+  padding: 0;
+  border: none;
+  background: transparent;
+}

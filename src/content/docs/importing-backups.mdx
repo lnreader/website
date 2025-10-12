@@ -1,0 +1,45 @@
+# Importing backups
+
+Migrating devices or coming from Tachiyomi? LNReader supports several backup formats to restore your library and reading progress.
+
+## Supported backup formats
+
+- **LNReader JSON**: The native format produced by `Settings → Backup & Restore → Create backup`.
+- **Tachiyomi/TachiyomiSY**: Drop-in compatible `.json` exports translate categories, chapters, and history.
+- **Mihon**: Restores library entries; some custom reader configurations may need manual tweaks.
+
+## Export from your old device
+
+1. Open your previous reader app.
+2. Navigate to the backup/export option and generate a full backup including categories and history.
+3. Transfer the resulting file to your new device via cloud storage, USB, or ADB.
+
+## Restore in LNReader
+
+1. Open **Settings → Backup & Restore → Restore backup**.
+2. Pick the exported backup file (`.json` or `.proto`).
+3. Confirm the import summary. Large libraries can take a few minutes.
+4. Restart the app to ensure the library rebuilds with fresh metadata.
+
+## Troubleshooting
+
+### Missing covers or metadata
+
+- Tap the novel → **Refresh metadata** to fetch updated titles and descriptions.
+- Run **Library → Update library** to refresh everything in bulk.
+
+### Source not installed
+
+- If chapters show as unknown, install the matching extension from the **Extensions** screen.
+- For private/self-hosted sources, add custom connectors via the `lnreader-sources` instructions.
+
+### Failed imports
+
+- Verify the backup is complete and not truncated (some file managers split large files).
+- Check Logcat or `adb logcat` for parse errors if you’re debugging locally.
+
+## Next steps
+
+- Configure automatic scheduled backups to your preferred cloud provider.
+- Enable reader sync tools for chapter tracking.
+- Contribute migration scripts or automation tips in the community docs.
