@@ -89,6 +89,10 @@ main {
   padding-inline: clamp(1.5rem, 3vw + 1rem, 2.5rem);
 }
 
+.page-shell--wide {
+  width: min(1360px, 100%);
+}
+
 .hero-grid {
   display: grid;
   gap: clamp(1.6rem, 3.2vw, 2.6rem);

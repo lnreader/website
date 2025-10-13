@@ -11,13 +11,13 @@ export default async function DocsLayout({
   const docsNavigation = await getDocsNavigation();
 
   return (
-    <PageChrome containerClassName="w-full px-6 md:px-10 lg:px-16 flex flex-col gap-10 pt-16">
-      <div className="grid gap-6 lg:grid-cols-[220px_1fr]">
+    <PageChrome containerClassName="page-shell--wide w-full px-6 md:px-10 lg:px-16 flex flex-col gap-10 pt-16">
+      <div className="grid gap-10 lg:grid-cols-[220px_1fr]">
         <aside className="flex flex-col gap-2 text-xs text-[color-mix(in_srgb,_var(--color-muted)_70%,_transparent)]">
           <DocsSidebar sections={docsNavigation} />
         </aside>
 
-        <article className="docs-content max-w-[960px]">{children}</article>
+        <div className="flex flex-col gap-10">{children}</div>
       </div>
     </PageChrome>
   );

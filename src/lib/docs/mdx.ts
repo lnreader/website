@@ -9,6 +9,7 @@ import remarkGfm from "remark-gfm";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
+import type { Root, RootContent, Element } from "hast";
 
 const docsDirectory = path.join(process.cwd(), "src/content/docs");
 
@@ -39,6 +40,12 @@ export interface DocNavigationLink {
   readonly label: string;
 }
 
+export interface DocHeading {
+  readonly id: string;
+  readonly title: string;
+  readonly level: number;
+}
+
 const DEFAULT_SECTION = "Guides";
 const DEFAULT_SECTION_ORDER = 100;
 const DEFAULT_DOC_ORDER = 100;
@@ -46,9 +53,11 @@ const DEFAULT_DOC_ORDER = 100;
 export async function getDocBySlug(slug: string): Promise<{
   readonly metadata: DocMetadata;
   readonly content: ReactNode;
+  readonly headings: ReadonlyArray<DocHeading>;
 }> {
   const filePath = path.join(docsDirectory, `${slug}.mdx`);
   const source = await readFileOrNotFound(filePath);
+  const headings: Array<DocHeading> = [];
 
   const { content, frontmatter } = await compileMDX<DocFrontmatter>({
     source,
@@ -58,6 +67,7 @@ export async function getDocBySlug(slug: string): Promise<{
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
           rehypeSlug,
+          createHeadingCollector(headings),
           [rehypeAutolinkHeadings, { behavior: "wrap" }],
         ],
       },
@@ -67,7 +77,80 @@ export async function getDocBySlug(slug: string): Promise<{
 
   const metadata = normalizeFrontmatter(frontmatter, slug);
 
-  return { metadata, content };
+  return { metadata, content, headings };
+}
+
+function createHeadingCollector(headings: Array<DocHeading>) {
+  return () => (tree: Root) => {
+    collectHeadings(tree, headings);
+  };
+}
+
+function extractText(node: Element): string {
+  const parts: Array<string> = [];
+
+  (node.children ?? []).forEach((child) => {
+    if (child.type === "text") {
+      const value = child.value;
+
+      if (value) {
+        parts.push(String(value));
+      }
+
+      return;
+    }
+
+    if (child.type === "element") {
+      const nested = extractText(child);
+
+      if (nested) {
+        parts.push(nested);
+      }
+    }
+  });
+
+  return parts.join(" ").replace(/\s+/gu, " ").trim();
+}
+
+function collectHeadings(
+  node: Root | Element,
+  headings: Array<DocHeading>
+): void {
+  if (node.type === "element") {
+    if (isHeading(node)) {
+      const id = node.properties?.id;
+
+      if (typeof id === "string") {
+        const title = extractText(node);
+
+        if (title) {
+          headings.push({
+            id,
+            title,
+            level: Number.parseInt(node.tagName.replace("h", ""), 10),
+          });
+        }
+      }
+    }
+
+    node.children?.forEach((child) => {
+      if (child.type === "element") {
+        collectHeadings(child, headings);
+      }
+    });
+
+    return;
+  }
+
+  node.children.forEach((child: RootContent) => {
+    if (child.type === "element") {
+      collectHeadings(child, headings);
+    }
+  });
+}
+
+function isHeading(node: Element): boolean {
+  return Boolean(node.tagName && /^h[1-6]$/u.test(node.tagName));
 }
 
 export async function getDocMetadata(slug: string): Promise<DocMetadata> {

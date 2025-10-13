@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 
 import { getDocBySlug } from "@/lib/docs/mdx";
+import DocArticle from "../_components/doc-article";
 
 export async function generateMetadata(): Promise<{
   readonly title: string;
@@ -15,7 +16,7 @@ export async function generateMetadata(): Promise<{
 }
 
 export default async function ImportingBackupsPage(): Promise<ReactElement> {
-  const { content } = await getDocBySlug("importing-backups");
+  const { content, headings } = await getDocBySlug("importing-backups");
 
-  return <div className="docs-content">{content}</div>;
+  return <DocArticle content={content} headings={headings} />;
 }
