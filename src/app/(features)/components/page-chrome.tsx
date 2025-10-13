@@ -39,7 +39,7 @@ const footerLinks: Array<{ readonly href: string; readonly label: string }> = [
   { href: "https://github.com/LNReader/lnreader", label: "Contribute" },
   { href: "https://github.com/LNReader/lnreader/releases", label: "Releases" },
   { href: "https://www.reddit.com/r/LNReader/", label: "Reddit" },
-  { href: "https://discord.gg/u2pTuQ8", label: "Discord" },
+  { href: "https://discord.com/invite/QdcWN4MD63", label: "Discord" },
 ];
 
 const stableNavLinks = navigationLinks.filter(
