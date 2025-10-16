@@ -15,14 +15,21 @@ const mono = Space_Grotesk({
 });
 
 const siteName = "LNReader";
+const siteTagline = "Open Source Light Novel Reader for Android";
 const siteDescription =
-  "Free, open source Android reader built for light novel fans.";
+  "A thoughtfully designed light novel reader for Android. Open source, free, works online and offline.";
 const baseUrl = new URL("https://lnreader.app");
 
 export const metadata: Metadata = {
   metadataBase: baseUrl,
+  icons: {
+    icon: [
+      { rel: "icon", url: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", url: "/icon.svg", type: "image/svg+xml" },
+    ],
+  },
   title: {
-    default: `${siteName} · Light novel companion app`,
+    default: `${siteName} · ${siteTagline}`,
     template: `%s · ${siteName}`,
   },
   description: siteDescription,
@@ -34,9 +41,13 @@ export const metadata: Metadata = {
     "android",
     "open source",
     "tachiyomi",
+    "offline reading",
+    "free light novel app",
+    "japanese novels",
+    "novel tracker",
   ],
   openGraph: {
-    title: siteName,
+    title: `${siteName} · ${siteTagline}`,
     description: siteDescription,
     url: baseUrl,
     siteName,
@@ -45,7 +56,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: siteName,
+    title: `${siteName} · ${siteTagline}`,
     description: siteDescription,
   },
   alternates: {
