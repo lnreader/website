@@ -1,0 +1,176 @@
+---
+title: "Custom CSS & JS"
+description: "Customize the reader's appearance and behavior with your own CSS and JavaScript."
+section: "Guides"
+order: 3
+sectionOrder: 100
+---
+
+# Custom CSS & JS
+
+LNReader lets you inject your own CSS and JavaScript into every chapter you read, giving you full control over the reading experience.
+
+## Where to find it
+
+Go to **Settings → Reader → Advanced**. You'll see two tabs: **CSS** and **JS**.
+
+- **Import** — load code from a file on your device
+- **Reset** — clear your current code
+- **Save** — apply your changes
+
+Changes take effect the next time you open a chapter.
+
+---
+
+## Custom CSS
+
+Your CSS is injected as an inline `<style>` block after the default styles, so your rules can override anything in the built-in theme.
+
+### HTML structure
+
+| Selector | Description |
+|---|---|
+| `body` | The entire page |
+| `#LNReader-chapter` | Chapter content container |
+| `#LNReader-chapter p` | Paragraphs within the chapter |
+| `#LNReader-chapter img` | Images within the chapter |
+| `#reader-ui` | Reader UI overlay (scrollbar, footer) |
+| `#reader-footer-wrapper` | Bottom bar (battery, time, progress) |
+| `#ToolWrapper` | Scrollbar container |
+| `#ScrollBar` | The scrollbar element |
+| `#TTS-Controller` | TTS playback button |
+| `.highlight` | Element currently being read by TTS |
+| `.next-button` | "Next Chapter" button at end of chapter |
+| `.transition-chapter` | Chapter name shown during page transitions |
+| `body.page-reader` | Applied to `<body>` in page-reader mode |
+
+### CSS variables
+
+LNReader exposes reader settings and theme colors as CSS variables on `:root`, so your styles automatically adapt to the user's theme.
+
+**Reader settings**
+
+```css
+--readerSettings-theme         /* background color */
+--readerSettings-padding       /* horizontal padding, e.g. 16px */
+--readerSettings-textSize      /* font size, e.g. 16px */
+--readerSettings-textColor     /* text color */
+--readerSettings-textAlign     /* left | center | right | justify */
+--readerSettings-lineHeight    /* line height, e.g. 1.5 */
+--readerSettings-fontFamily    /* font family name */
+```
+
+**Theme colors**
+
+```css
+--theme-primary
+--theme-onPrimary
+--theme-secondary
+--theme-onSecondary
+--theme-surface
+--theme-onSurface
+--theme-surfaceVariant
+--theme-onSurfaceVariant
+--theme-outline
+```
+
+### Examples
+
+Indent paragraphs:
+
+```css
+#LNReader-chapter p {
+  text-indent: 2em;
+  margin-bottom: 0.8em;
+}
+```
+
+Style headings to match the theme:
+
+```css
+#LNReader-chapter h1,
+#LNReader-chapter h2 {
+  color: var(--theme-primary);
+  border-bottom: 1px solid var(--theme-outline);
+  padding-bottom: 0.3em;
+}
+```
+
+Make images rounded:
+
+```css
+#LNReader-chapter img {
+  border-radius: 8px;
+}
+```
+
+Style the TTS highlight:
+
+```css
+.highlight {
+  background-color: var(--theme-primary) !important;
+  color: var(--theme-onPrimary) !important;
+  border-radius: 3px;
+}
+```
+
+Remove the scrollbar:
+
+```css
+#ToolWrapper {
+  display: none;
+}
+```
+
+---
+
+## Custom JavaScript
+
+Your JS runs inside the reader WebView after all built-in scripts have loaded, with access to the full DOM.
+
+### Examples
+
+Remove ad elements:
+
+```js
+document.querySelectorAll('.ads, .ad-block, [class*="advertisement"]')
+  .forEach(el => el.remove());
+```
+
+Add a word count at the top:
+
+```js
+const chapter = document.getElementById('LNReader-chapter');
+const wordCount = chapter.innerText.trim().split(/\s+/).length;
+const counter = document.createElement('p');
+counter.style.cssText = 'opacity:0.5; font-size:0.85em; margin-bottom:1em;';
+counter.textContent = `~${wordCount.toLocaleString()} words`;
+chapter.prepend(counter);
+```
+
+Highlight all dialogue:
+
+```js
+chapter.querySelectorAll('p').forEach(p => {
+  p.innerHTML = p.innerHTML.replace(
+    /[""][^""]+[""]/g,
+    match => `<span style="color: var(--theme-primary)">${match}</span>`
+  );
+});
+```
+
+---
+
+## Plugin CSS & JS
+
+Plugin developers can ship a `custom.css` and/or `custom.js` alongside their plugin. These are downloaded automatically when you install the plugin and load before your global custom code. This lets plugins apply source-specific fixes (e.g. removing site clutter or fixing broken image layouts) without affecting other sources.
+
+Plugin scripts have access to all the same APIs as your global custom JS.
+
+---
+
+## Tips
+
+- Use `var(--theme-*)` variables in CSS to automatically adapt to the user's color theme.
+- Custom JS runs after all built-in scripts, so the full DOM is always available when your code runs.
+- Changes only take effect when you reopen a chapter.
