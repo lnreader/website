@@ -18,7 +18,13 @@ const siteName = "LNReader";
 const siteTagline = "Open Source Light Novel Reader for Android";
 const siteDescription =
   "A thoughtfully designed light novel reader for Android. Open source, free, works online and offline.";
-const baseUrl = new URL("https://lnreader.app");
+const baseUrl = new URL("https://www.lnreader.app");
+const previewImage = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: "LNReader, an open source light novel reader for Android",
+};
 
 export const metadata: Metadata = {
   metadataBase: baseUrl,
@@ -51,6 +57,7 @@ export const metadata: Metadata = {
     description: siteDescription,
     url: baseUrl,
     siteName,
+    images: [previewImage],
     locale: "en_US",
     type: "website",
   },
@@ -58,6 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: `${siteName} · ${siteTagline}`,
     description: siteDescription,
+    images: [previewImage],
   },
   alternates: {
     canonical: baseUrl,
