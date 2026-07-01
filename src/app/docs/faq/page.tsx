@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<{
 }
 
 export default async function FaqPage(): Promise<ReactElement> {
-  const { content, headings } = await getDocBySlug("faq");
+  const { content, headings, metadata } = await getDocBySlug("faq");
 
-  return <DocArticle content={content} headings={headings} />;
+  return <DocArticle content={content} headings={headings} metadata={metadata} />;
 }

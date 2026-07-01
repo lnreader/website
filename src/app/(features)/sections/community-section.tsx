@@ -51,8 +51,8 @@ export default function CommunitySection(): ReactElement {
             Contributor stats
           </span>
           <ul className="grid gap-1.5">
-            <li>33+ contributors merged in the past year</li>
-            <li>2.2k GitHub stars · 36 releases</li>
+            <li>115 contributors across the app and plugin repositories</li>
+            <li>2.7k GitHub stars · 36 releases</li>
             <li>Active Discord with source authors &amp; maintainers</li>
           </ul>
         </div>

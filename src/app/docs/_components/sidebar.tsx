@@ -21,34 +21,50 @@ export default function DocsSidebar({
   const pathname = usePathname();
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex w-full min-w-0 overflow-x-auto lg:block">
       {sections.map(({ title, links }) => (
-        <div key={title} className="flex flex-col gap-1.5">
-          <span className="text-[0.72rem] font-semibold uppercase tracking-[0.14em] text-[color-mix(in_srgb,_var(--color-muted)_68%,_transparent)]">
+        <div key={title} className="min-w-max border-r border-[var(--color-border)] lg:border-r-0">
+          <div className="hidden min-h-12 items-center border-b border-[var(--color-border)] px-6 lg:flex">
+          <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#82949e]">
             {title}
           </span>
-          <nav className="flex flex-col gap-1 text-[0.9rem]">
-            {links.map(({ href, label }) => {
+          </div>
+          <nav aria-label={`${title} documentation`} className="flex lg:block">
+            {links.map(({ href, label }, index) => {
               const isActive = pathname === href;
+              const itemNumber = String(index + 1).padStart(2, "0");
 
               return (
                 <Link
                   key={href}
                   href={href}
                   className={clsx(
-                    "px-1.5 py-1 transition-colors",
+                    "flex min-h-12 items-center gap-3 border-r border-[var(--color-border)] px-5 font-[family-name:var(--font-display)] text-[13px] font-medium no-underline transition-colors last:border-r-0 lg:min-h-[51px] lg:border-r-0 lg:border-b lg:px-6",
                     isActive
-                      ? "font-semibold text-[var(--color-accent-strong)]"
-                      : "text-[color-mix(in_srgb,_var(--color-foreground)_60%,_transparent)] hover:text-[var(--color-foreground)]"
+                      ? "bg-[var(--color-accent)] text-white"
+                      : "text-[#526570] hover:bg-[#e7eeee] hover:text-[var(--color-foreground)]"
                   )}
                 >
-                  {label}
+                  <span className={clsx("font-mono text-[10px]", isActive ? "text-white" : "text-[#a1afb6]")}>
+                    {title === "FAQ" ? "?" : itemNumber}
+                  </span>
+                  <span>{label}</span>
+                  {isActive && <span aria-hidden="true" className="ml-auto text-[9px]">◆</span>}
                 </Link>
               );
             })}
           </nav>
         </div>
       ))}
+      <div className="hidden p-5 lg:block">
+        <div className="border border-dashed border-[#b9c6ca] p-4">
+          <p className="font-mono text-[9px] font-medium uppercase tracking-[0.18em] text-[var(--color-accent)]">Need help?</p>
+          <p className="mt-2 text-[12px] leading-5 text-[#60727d]">Ask the community on Discord or open an issue on GitHub.</p>
+          <a href="https://discord.com/invite/QdcWN4MD63" className="mt-4 flex min-h-10 items-center justify-center border border-[var(--color-border)] bg-white font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-[var(--color-foreground)] no-underline hover:bg-[#e7eeee]">
+            Join Discord ↗
+          </a>
+        </div>
+      </div>
     </div>
   );
 }

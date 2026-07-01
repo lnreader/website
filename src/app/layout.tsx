@@ -1,17 +1,34 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Space_Grotesk } from "next/font/google";
+import localFont from "next/font/local";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
-const sans = Manrope({
+const sans = localFont({
   variable: "--font-sans-base",
-  subsets: ["latin"],
+  src: [
+    { path: "../../public/fonts/manrope-regular.ttf", weight: "400" },
+    { path: "../../public/fonts/manrope-semibold.ttf", weight: "600" },
+    { path: "../../public/fonts/manrope-extrabold.ttf", weight: "800" },
+  ],
   display: "swap",
 });
 
-const mono = Space_Grotesk({
+const mono = localFont({
   variable: "--font-mono-base",
-  subsets: ["latin"],
+  src: [
+    { path: "../../public/fonts/dm-mono-regular.ttf", weight: "400" },
+    { path: "../../public/fonts/dm-mono-medium.ttf", weight: "500 700" },
+  ],
+  display: "swap",
+});
+
+const display = localFont({
+  variable: "--font-display",
+  src: [
+    { path: "../../public/fonts/space-grotesk-regular.ttf", weight: "400" },
+    { path: "../../public/fonts/space-grotesk-medium.ttf", weight: "500" },
+    { path: "../../public/fonts/space-grotesk-semibold.ttf", weight: "600 700" },
+  ],
   display: "swap",
 });
 
@@ -30,10 +47,7 @@ const previewImage = {
 export const metadata: Metadata = {
   metadataBase: baseUrl,
   icons: {
-    icon: [
-      { rel: "icon", url: "/favicon.ico", type: "image/x-icon" },
-      { rel: "icon", url: "/icon.svg", type: "image/svg+xml" },
-    ],
+    icon: [{ rel: "icon", url: "/favicon.svg", type: "image/svg+xml" }],
   },
   title: {
     default: `${siteName} · ${siteTagline}`,
@@ -74,7 +88,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#106e81",
+  themeColor: "#edf3f3",
   colorScheme: "light dark",
 };
 
@@ -85,7 +99,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${sans.variable} ${mono.variable} antialiased`}>
+      <body className={`${sans.variable} ${mono.variable} ${display.variable} antialiased`}>
         {children}
         <Analytics />
       </body>

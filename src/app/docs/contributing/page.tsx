@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<{
 }
 
 export default async function ContributingPage(): Promise<ReactElement> {
-  const { content, headings } = await getDocBySlug("contributing");
+  const { content, headings, metadata } = await getDocBySlug("contributing");
 
-  return <DocArticle content={content} headings={headings} />;
+  return <DocArticle content={content} headings={headings} metadata={metadata} />;
 }

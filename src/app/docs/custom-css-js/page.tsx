@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<{
 }
 
 export default async function CustomCssJsPage(): Promise<ReactElement> {
-  const { content, headings } = await getDocBySlug("custom-css-js");
+  const { content, headings, metadata } = await getDocBySlug("custom-css-js");
 
-  return <DocArticle content={content} headings={headings} />;
+  return <DocArticle content={content} headings={headings} metadata={metadata} />;
 }

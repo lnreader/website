@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default function BackupUpgraderPage(): ReactElement {
   return (
-    <PageChrome containerClassName="w-full max-w-5xl mx-auto flex flex-col gap-10 pt-20 pb-16">
+    <PageChrome containerClassName="!max-w-[1232px] !px-0 !pt-0 !pb-0">
       <BackupUpgraderClient />
     </PageChrome>
   );

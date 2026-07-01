@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<{
 }
 
 export default async function ImportingBackupsPage(): Promise<ReactElement> {
-  const { content, headings } = await getDocBySlug("importing-backups");
+  const { content, headings, metadata } = await getDocBySlug("importing-backups");
 
-  return <DocArticle content={content} headings={headings} />;
+  return <DocArticle content={content} headings={headings} metadata={metadata} />;
 }
