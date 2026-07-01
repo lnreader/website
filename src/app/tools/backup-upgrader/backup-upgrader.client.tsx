@@ -458,13 +458,6 @@ export default function BackupUpgraderClient(): ReactElement {
                           onClick={() => copyPlugin(plugin)}
                           className="flex min-h-14 w-full items-center gap-3 border border-[var(--color-border)] bg-white px-3 py-2 text-left hover:border-[var(--color-accent)] hover:bg-[var(--color-accent-soft)] focus-visible:outline-2 focus-visible:outline-[var(--color-accent)]"
                         >
-                          <img
-                            src={plugin.iconUrl}
-                            alt=""
-                            width={38}
-                            height={38}
-                            className="border border-[var(--color-border)] object-cover"
-                          />
                           <span className="min-w-0">
                             <b className="block truncate font-[family-name:var(--font-display)] text-sm">
                               {plugin.name}

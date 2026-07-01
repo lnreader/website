@@ -52,10 +52,10 @@ function stripLeadingText(node: ReactNode, pattern: RegExp): ReactNode {
 
 function SectionHeading({
   children,
+  "data-n": generatedNumber,
   ...props
-}: ComponentPropsWithoutRef<"h2">): ReactElement {
+}: ComponentPropsWithoutRef<"h2"> & { "data-n"?: string }): ReactElement {
   const match = textContent(children).match(/^\s*(\d+)[.)]?\s*/u);
-  const generatedNumber = props["data-n"];
   const number =
     match?.[1]?.padStart(2, "0") ??
     (typeof generatedNumber === "string" ? generatedNumber : undefined);
