@@ -2,7 +2,18 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Braces, FolderGit2 } from "lucide-react";
+import {
+  ArrowLeft,
+  Braces,
+  FolderGit2,
+  List,
+  MoreVertical,
+  Search,
+  Settings2,
+  SunMedium,
+  Type,
+} from "lucide-react";
+import SiteShell from "@/app/(features)/components/site-shell";
 
 
 const links = {
@@ -66,57 +77,12 @@ function CropMarks() {
 }
 
 export default function LandingPage() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
-    <div className="min-h-screen bg-[#e8efef] font-[family-name:var(--font-display)] text-[#16242e] [&_*]:rounded-none [&_a]:text-inherit [&_a]:no-underline">
-      <div className="min-h-screen w-full overflow-x-clip bg-[#eff4f4]">
-        <header className="sticky top-0 z-50 min-h-[76px] border-b border-[rgba(20,40,55,.14)] bg-[color-mix(in_srgb,#edf3f3_95%,transparent)] px-[clamp(20px,3vw,36px)] backdrop-blur-[12px]">
-          <div className="mx-auto flex min-h-[76px] w-full max-w-[1232px] items-center justify-between max-[680px]:min-h-[68px]">
-            <Link href="/" className="flex items-center gap-[11px] text-[17px] font-bold tracking-[-.02em]">
-              <span className="grid h-[34px] w-[34px] place-items-center bg-[#0e7490] font-mono text-white">読</span>
-              <span>LNReader</span>
-            </Link>
-            <nav className="hidden items-center gap-[27px] font-[family-name:var(--font-display)] text-sm font-medium tracking-[-.01em] text-[#41545f] min-[981px]:flex [&_a:hover]:text-[#16242e]" aria-label="Primary navigation">
-              <Link className="text-[#16242e]" href="/">
-                Features
-              </Link>
-              <Link href="/plugins">Plugins</Link>
-              <Link href="/releases">Releases</Link>
-              <Link href="/docs/getting-started">Docs</Link>
-              <Link href="/tools/backup-upgrader">Tools</Link>
-            </nav>
-            <div className="flex items-center gap-2.5 [&>a]:hidden min-[981px]:[&>a]:inline-flex">
-              <a className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors bg-[#f7faf9] hover:bg-[#dfeaea]" href={links.app}>
-                GitHub
-              </a>
-              <a className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors border-[#0e7490] bg-[#0e7490] text-white! hover:bg-[#0a6179]" href={links.releases}>
-                Download <span>→</span>
-              </a>
-              <button
-                type="button"
-                className="grid h-10 w-10 place-items-center border border-[rgba(20,40,55,.14)] bg-[#f7faf9] font-mono text-[21px] font-bold min-[981px]:hidden"
-                aria-label="Toggle navigation"
-                aria-expanded={menuOpen}
-                onClick={() => setMenuOpen((open) => !open)}
-              >
-                {menuOpen ? "×" : "≡"}
-              </button>
-            </div>
-          </div>
-        </header>
-        {menuOpen && (
-          <nav className="grid grid-cols-3 border-b border-[rgba(20,40,55,.14)] bg-[#f5f8f7] min-[981px]:hidden max-[680px]:grid-cols-2 [&_a]:border-r [&_a]:border-b [&_a]:border-[rgba(20,40,55,.14)] [&_a]:px-5 [&_a]:py-3.5 [&_a]:font-[family-name:var(--font-display)] [&_a]:text-[13px] [&_a]:font-medium">
-            <Link href="/">Features</Link>
-            <Link href="/plugins">Plugins</Link>
-            <Link href="/releases">Releases</Link>
-            <Link href="/docs/getting-started">Docs</Link>
-            <Link href="/tools/backup-upgrader">Tools</Link>
-            <a href={links.app}>GitHub</a>
-          </nav>
-        )}
-
-        <main className="mx-auto w-full max-w-[1232px] border-x border-[rgba(20,40,55,.14)] max-[680px]:border-x-0">
+    <SiteShell
+      className="bg-[#e8efef] font-[family-name:var(--font-display)] text-[#16242e] [&_*]:rounded-none [&_a]:text-inherit [&_a]:no-underline"
+      mainClassName="overflow-x-clip bg-[#eff4f4]"
+    >
+        <div className="mx-auto w-full max-w-[1232px] border-x border-[rgba(20,40,55,.14)] max-[680px]:border-x-0">
           <section className="relative isolate flex min-h-[660px] flex-col items-center justify-center overflow-hidden border-b border-[rgba(20,40,55,.14)] px-9 pt-[72px] pb-[58px] text-center max-[680px]:min-h-[630px] max-[680px]:px-[22px] max-[680px]:pt-16 max-[680px]:pb-12 [&>h1]:m-0 [&>h1]:max-w-[980px] [&>h1]:text-[72px] [&>h1]:leading-[.98] [&>h1]:font-medium [&>h1]:tracking-[-.055em] [&>h1]:text-balance max-[680px]:[&>h1]:text-[clamp(45px,13vw,58px)] [&>h1_span]:text-[#0e7490] [&>p]:mx-auto [&>p]:mt-7 [&>p]:max-w-[720px] [&>p]:text-[17px] [&>p]:leading-[1.55] [&>p]:text-[#516470] [&>p]:text-balance max-[680px]:[&>p]:text-[15px]">
             <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle,rgba(14,116,144,.25)_1px,transparent_1.4px)] bg-[length:18px_18px] [mask-image:linear-gradient(to_right,#000_0%,transparent_31%,transparent_69%,#000_100%)] after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(to_bottom,#eff4f4_0%,transparent_28%,transparent_73%,#eff4f4_100%)]" aria-hidden="true" />
             <h1>
@@ -285,28 +251,85 @@ export default function LandingPage() {
               <div className="relative mb-[18px] flex items-center gap-2.5 font-mono text-[10px] font-bold tracking-[.14em] text-[#8a9aa3] [&>span]:grid [&>span]:h-[19px] [&>span]:w-[19px] [&>span]:place-items-center [&>span]:border [&>span]:border-[#b3c0c7] [&>span]:text-[#0e7490]">
                 <span>◑</span> FIG. 01 — IMMERSIVE READER
               </div>
-              <div className="relative p-[11px] text-[#0e7490] max-[680px]:-mx-[11px] [&>pre]:m-0 [&>pre]:overflow-auto [&>pre]:border [&>pre]:border-[rgba(20,40,55,.14)] [&>pre]:bg-[#f4f8f7] [&>pre]:p-5 [&>pre]:font-mono [&>pre]:text-xs [&>pre]:font-medium [&>pre]:leading-[1.55] [&>pre]:text-[#41545f] max-[680px]:[&>pre]:p-[15px_10px] max-[680px]:[&>pre]:text-[10px]">
+              <div className="relative mx-auto h-[430px] w-full max-w-[320px] overflow-hidden p-[10px] text-[#0e7490] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-10 after:h-16 after:bg-gradient-to-b after:from-transparent after:to-[#eef1f4] after:content-[''] [&>i]:z-20">
                 <CropMarks />
-                <pre>{`+----------------------------+
-|  THE LANTERN IN THE EAST   |
-|  Vol. 2 · Chapter 14       |
-|  · · · · · · · · · · · · |
-|  Snow fell on the quiet    |
-|  road as Kaede walked      |
-|  toward the lantern that   |
-|  never seemed to go out.   |
-|                            |
-|  "You waited," she said.   |
-|                            |
-|  [#########-------]   61%  |
-+----------------------------+
-     a prev   d next   t theme`}</pre>
+                <div className="!rounded-[42px] border border-[#9eb4b8] bg-[#d5e2e2] p-[7px] shadow-[0_24px_48px_-34px_rgba(20,40,55,.55)]">
+                  <div className="relative h-[590px] overflow-hidden !rounded-[35px] border border-[rgba(20,40,55,.16)] bg-[#f5f8f7] text-[#24343a]">
+                    <div className="flex h-9 items-center justify-between px-5 font-mono text-[9px] font-semibold text-[#516470]">
+                      <span>09:41</span>
+                      <span className="flex items-center gap-1.5">
+                        <i className="h-2 w-3 border border-[#24343a] before:block before:h-full before:w-2/3 before:bg-[#24343a] before:content-['']" />
+                        87%
+                      </span>
+                    </div>
+
+                    <div className="flex h-[50px] items-center justify-between border-y border-[rgba(20,40,55,.14)] bg-[#eef4f3] px-3">
+                      <button type="button" aria-label="Back to library" className="grid h-8 w-8 place-items-center text-[#516470]">
+                        <ArrowLeft size={17} strokeWidth={1.8} />
+                      </button>
+                      <div className="min-w-0 text-center">
+                        <strong className="block truncate text-[11px] font-semibold">The Lantern in the East</strong>
+                        <span className="font-mono text-[7px] uppercase tracking-[.12em] text-[#7d898d]">Chapter 14 · The Long Road</span>
+                      </div>
+                      <button type="button" aria-label="Reader menu" className="grid h-8 w-8 place-items-center text-[#516470]">
+                        <MoreVertical size={17} strokeWidth={1.8} />
+                      </button>
+                    </div>
+
+                    <article className="h-[414px] overflow-hidden px-7 pt-8 text-left">
+                      <div className="mb-6 flex items-center gap-2 font-mono text-[7px] font-medium uppercase tracking-[.16em] text-[#0e7490]">
+                        <span className="h-px w-5 bg-[#0e7490]" />
+                        14 / The long road
+                      </div>
+                      <h3 className="mb-6 font-[family-name:var(--font-display)] text-[21px] font-medium leading-[1.08] tracking-[-.035em]">
+                        A light that never went out.
+                      </h3>
+                      <div className="space-y-4 font-serif text-[12px] leading-[1.72] text-[#39484d]">
+                        <p>
+                          Snow fell on the quiet road as Kaede walked toward
+                          the lantern at the edge of town.
+                        </p>
+                        <p>
+                          It had burned through every winter she could
+                          remember, steady against the dark.
+                        </p>
+                        <p className="border-l-2 border-[#0e7490] pl-3 italic text-[#536268]">
+                          “You waited,” she said.
+                        </p>
+                      </div>
+                    </article>
+
+                    <div className="border-t border-[rgba(20,40,55,.14)] bg-[#e8efef] px-4 pt-3 pb-2">
+                      <div className="mb-2.5 flex items-center gap-3">
+                        <span className="font-mono text-[7px] text-[#7d898d]">61%</span>
+                        <div className="h-1 flex-1 bg-[#cbd9da]">
+                          <div className="h-full w-[61%] bg-[#0e7490]" />
+                        </div>
+                        <span className="font-mono text-[7px] text-[#7d898d]">18 min</span>
+                      </div>
+                      <nav aria-label="Reader controls" className="grid grid-cols-5 text-[#617176]">
+                        {[
+                          { icon: List, label: "Chapters" },
+                          { icon: Search, label: "Search" },
+                          { icon: Type, label: "Text" },
+                          { icon: SunMedium, label: "Theme" },
+                          { icon: Settings2, label: "More" },
+                        ].map(({ icon: Icon, label }) => (
+                          <button key={label} type="button" className="flex flex-col items-center gap-1 py-1 text-[7px]">
+                            <Icon size={14} strokeWidth={1.7} />
+                            <span>{label}</span>
+                          </button>
+                        ))}
+                      </nav>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="relative mt-[17px] flex items-center gap-2 font-mono text-[11px] font-medium text-[#0e7490] [&>i]:h-[13px] [&>i]:w-[7px] [&>i]:animate-pulse [&>i]:bg-[#0e7490]">
                 ▸ paged · continuous · distraction-free <i />
               </div>
             </div>
-            <div className="p-[34px_36px] max-[680px]:p-[30px_22px] [&>h2]:my-[13px_9px] [&>h2]:text-[clamp(30px,3vw,36px)] [&>h2]:leading-[1.05] [&>h2]:tracking-[-.035em] [&>h2_em]:text-[#0e7490] [&>h2_em]:not-italic [&>p]:mb-[21px] [&>p]:text-sm [&>p]:text-[#516470] [&>ol]:m-0 [&>ol]:list-none [&>ol]:p-0 [&>ol>li]:grid [&>ol>li]:grid-cols-[40px_1fr] [&>ol>li]:border-t [&>ol>li]:border-[rgba(20,40,55,.14)] [&>ol>li]:py-[13px] [&>ol>li:last-child]:border-b [&>ol>li>span]:font-mono [&>ol>li>span]:text-xs [&>ol>li>span]:font-semibold [&>ol>li>span]:text-[#b3c0c7] [&>ol>li>b]:text-[15px]">
+            <div className="p-[34px_36px] max-[680px]:p-[30px_22px] [&>h2]:my-[13px_9px] [&>h2]:text-[clamp(30px,3vw,36px)] [&>h2]:leading-[1.05] [&>h2]:tracking-[-.035em] [&>h2_em]:text-[#0e7490] [&>h2_em]:not-italic [&>p]:mb-[21px] [&>p]:text-sm [&>p]:text-[#516470] [&>ol]:m-0 [&>ol]:list-none [&>ol]:p-0 [&>ol>li]:grid [&>ol>li]:grid-cols-[40px_1fr] [&>ol>li]:items-center [&>ol>li]:border-t [&>ol>li]:border-[rgba(20,40,55,.14)] [&>ol>li]:py-[13px] [&>ol>li:last-child]:border-b [&>ol>li>span]:font-mono [&>ol>li>span]:text-xs [&>ol>li>span]:font-semibold [&>ol>li>span]:text-[#b3c0c7] [&>ol>li>b]:text-[15px]">
               <span className="relative flex items-center gap-2.5 font-mono text-[10px] font-bold tracking-[.14em] text-[#0e7490]">THE READING EXPERIENCE</span>
               <h2>
                 Craft the reader
@@ -388,21 +411,7 @@ export default function LandingPage() {
               </a>
             </div>
           </section>
-        </main>
-
-        <footer className="flex items-center justify-between border-t border-[rgba(20,40,55,.14)] bg-[#f5f8f7] px-9 py-[22px] font-mono text-[11px] font-medium uppercase text-[#6a7d88] max-[680px]:flex-col max-[680px]:items-start max-[680px]:gap-5 max-[680px]:p-[22px] [&>div]:flex [&>div]:items-center [&>div]:gap-2.5 [&>nav]:flex [&>nav]:gap-5 max-[680px]:[&>nav]:flex-wrap [&_a:hover]:text-[#0e7490]">
-          <div>
-            <span className="grid h-6 w-6 place-items-center bg-[#0e7490] font-mono text-white">読</span> BUILT BY THE COMMUNITY
-            · {new Date().getFullYear()} · MIT
-          </div>
-          <nav>
-            <a href={links.app}>Contribute</a>
-            <a href={links.releases}>Releases</a>
-            <a href="https://www.reddit.com/r/LNReader/">Reddit</a>
-            <a href="https://discord.com/invite/QdcWN4MD63">Discord</a>
-          </nav>
-        </footer>
-      </div>
-    </div>
+        </div>
+    </SiteShell>
   );
 }
