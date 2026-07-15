@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import type { FC } from "react";
 
 import PageChrome from "@/app/(features)/components/page-chrome";
 import PluginsExplorer from "@/app/plugins/plugins-explorer";
@@ -70,27 +69,18 @@ export default async function PluginsPage() {
   }
 
   return (
-    <PageChrome containerClassName="w-full max-w-5xl mx-auto flex flex-col gap-10 pt-20 pb-16">
-      <header className="flex flex-col gap-3">
-        <h1 className="text-[1.95rem] font-semibold tracking-[-0.02em] text-[var(--color-foreground)]">
-          Plugins
-        </h1>
-        <div className="flex flex-col gap-2 text-sm text-[color-mix(in_srgb,_var(--color-foreground)_70%,_transparent)]">
-          <p>
-            By default, LNReader comes without any plugins. You can choose to
-            read local content or include an external repository.
-          </p>
-          <p>
-            LNReader maintains only one official repository; any other
-            repositories are unofficial and have no affiliation with us.
-          </p>
-        </div>
-      </header>
-
+    <PageChrome containerClassName="!max-w-[1232px] !px-0 !pt-0 !pb-0">
       {errorMessage ? (
-        <div className="rounded-md border border-[var(--color-border)] bg-[color-mix(in_srgb,_var(--color-surface)_90%,_transparent)] px-4 py-5 text-sm text-[color-mix(in_srgb,_var(--color-foreground)_70%,_transparent)]">
-          {errorMessage}
-        </div>
+        <section className="grid min-h-[60vh] place-items-center border-x border-[var(--color-border)] bg-[#f5f8f7] px-5 text-center">
+          <div>
+            <p className="font-mono text-xs uppercase tracking-[0.18em] text-[var(--color-accent)]">
+              Plugin registry unavailable
+            </p>
+            <p className="mt-3 font-[family-name:var(--font-display)] text-sm text-[var(--color-muted)]">
+              {errorMessage}
+            </p>
+          </div>
+        </section>
       ) : (
         <PluginsExplorer repositoryUrl={pluginsSourceUrl} plugins={plugins} />
       )}

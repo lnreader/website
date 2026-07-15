@@ -57,27 +57,37 @@ const TableOfContents: FC<TableOfContentsProps> = ({ headings }) => {
   }
 
   return (
-    <aside className="sticky top-28 hidden h-fit max-h-[80vh] overflow-y-auto border-l border-[color-mix(in_srgb,_var(--color-border)_60%,_transparent)] pl-6 xl:block">
-      <span className="text-xs font-semibold uppercase tracking-[0.14em] text-[color-mix(in_srgb,_var(--color-muted)_72%,_transparent)]">
-        On this page
-      </span>
-      <nav className="mt-4 flex flex-col gap-2 text-sm text-[color-mix(in_srgb,_var(--color-foreground)_62%,_transparent)]">
+    <aside className="hidden border-l border-[var(--color-border)] bg-[#f8faf9] xl:block">
+      <div className="sticky top-[76px] max-h-[calc(100vh-76px)] overflow-y-auto">
+      <div className="flex min-h-12 items-center border-b border-[var(--color-border)] px-6">
+        <span className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#82949e]">On this page</span>
+      </div>
+      <nav aria-label="On this page" className="py-2">
         {items.map((heading) => (
           <a
             key={heading.id}
             href={`#${heading.id}`}
             className={clsx(
-              "block border-l border-transparent transition-colors",
-              heading.level > 2 ? "ml-3" : "ml-0",
+              "flex min-h-11 items-start gap-3 border-l-2 border-transparent px-5 py-3 font-[family-name:var(--font-display)] text-[12px] leading-5 no-underline transition-colors",
+              heading.level > 2 && "pl-8",
               activeId === heading.id
-                ? "border-[var(--color-accent-soft)] font-semibold text-[var(--color-accent-strong)]"
-                : "hover:text-[var(--color-foreground)]"
+                ? "border-[var(--color-accent)] bg-[#e6f0f1] font-semibold text-[var(--color-accent)]"
+                : "text-[#60727d] hover:bg-[#edf3f3] hover:text-[var(--color-foreground)]"
             )}
           >
-            {heading.title}
+            <span className="font-mono text-[9px] text-[#a1afb6]">
+              {String(items.indexOf(heading) + 1).padStart(2, "0")}
+            </span>
+            <span>{heading.title.replace(/^\d+\.\s*/u, "")}</span>
           </a>
         ))}
       </nav>
+      <div className="mx-6 mt-3 border-t border-dotted border-[#b9c6ca] pt-5 pb-6 font-mono text-[10px] leading-8">
+        <a href="/releases" className="block text-[var(--color-foreground)] no-underline hover:text-[var(--color-accent)]">Releases ↗</a>
+        <a href="/plugins" className="block text-[var(--color-foreground)] no-underline hover:text-[var(--color-accent)]">Plugin registry ↗</a>
+        <a href="https://github.com/LNReader/lnreader" className="block text-[var(--color-foreground)] no-underline hover:text-[var(--color-accent)]">Source on GitHub ↗</a>
+      </div>
+      </div>
     </aside>
   );
 };

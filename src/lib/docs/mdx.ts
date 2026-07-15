@@ -2,7 +2,6 @@ import fs from "node:fs/promises";
 import path from "node:path";
 
 import { compileMDX } from "next-mdx-remote/rsc";
-import type { MDXComponents } from "mdx/types";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
@@ -10,6 +9,7 @@ import matter from "gray-matter";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import type { Root, RootContent, Element } from "hast";
+import { docsMdxComponents } from "@/app/docs/_components/markdown-components";
 
 const docsDirectory = path.join(process.cwd(), "src/content/docs");
 
@@ -72,7 +72,7 @@ export async function getDocBySlug(slug: string): Promise<{
         ],
       },
     },
-    components: mdxComponents,
+    components: docsMdxComponents,
   });
 
   const metadata = normalizeFrontmatter(frontmatter, slug);
@@ -82,7 +82,7 @@ export async function getDocBySlug(slug: string): Promise<{
 
 function createHeadingCollector(headings: Array<DocHeading>) {
   return () => (tree: Root) => {
-    collectHeadings(tree, headings);
+    collectHeadings(tree, headings, { section: 0 });
   };
 }
 
@@ -114,10 +114,19 @@ function extractText(node: Element): string {
 
 function collectHeadings(
   node: Root | Element,
-  headings: Array<DocHeading>
+  headings: Array<DocHeading>,
+  state: { section: number }
 ): void {
   if (node.type === "element") {
     if (isHeading(node)) {
+      if (node.tagName === "h2") {
+        state.section += 1;
+        node.properties = {
+          ...node.properties,
+          "data-n": String(state.section).padStart(2, "0"),
+        };
+      }
+
       const id = node.properties?.id;
 
       if (typeof id === "string") {
@@ -135,7 +144,7 @@ function collectHeadings(
 
     node.children?.forEach((child) => {
       if (child.type === "element") {
-        collectHeadings(child, headings);
+        collectHeadings(child, headings, state);
       }
     });
 
@@ -144,7 +153,7 @@ function collectHeadings(
 
   node.children.forEach((child: RootContent) => {
     if (child.type === "element") {
-      collectHeadings(child, headings);
+      collectHeadings(child, headings, state);
     }
   });
 }
@@ -286,5 +295,3 @@ function normalizeFrontmatter(
     sectionOrder,
   };
 }
-
-const mdxComponents: MDXComponents = {};

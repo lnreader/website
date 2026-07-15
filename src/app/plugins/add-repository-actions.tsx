@@ -49,28 +49,33 @@ const AddRepositoryActions: FC<AddRepositoryActionsProps> = ({
   )}`;
 
   return (
-    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-      <div className="flex flex-wrap items-center gap-3">
+    <div>
+      <div className="grid gap-2 sm:grid-cols-[1fr_auto]">
         <a
           href={deepLink}
-          className="inline-flex items-center gap-2 rounded-sm bg-[var(--color-accent)] px-4 py-2 text-sm font-semibold tracking-tight text-white transition-colors hover:bg-[var(--color-accent-strong)] cursor-pointer"
+          className="inline-flex min-h-12 items-center justify-center bg-white px-5 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-[var(--color-accent)] no-underline transition-colors hover:bg-[#eef7f7] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          Add Repository in LNReader
+          Add repository &nbsp;→
         </a>
         <button
           type="button"
           onClick={handleCopy}
-          className="inline-flex items-center gap-2 rounded-sm border border-[color-mix(in_srgb,_var(--color-border)_70%,_transparent)] px-4 py-2 text-sm font-medium text-[color-mix(in_srgb,_var(--color-foreground)_80%,_transparent)] transition-colors hover:border-[color-mix(in_srgb,_var(--color-border)_60%,_transparent)] hover:text-[var(--color-foreground)] cursor-pointer"
+          className="inline-flex min-h-12 cursor-pointer items-center justify-center border border-white/45 bg-white/5 px-5 font-mono text-[11px] font-medium uppercase tracking-[0.12em] text-white transition-colors hover:bg-white/10 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
-          {copied ? "Copied" : "Copy Repository Link"}
+          {copied ? "✓ Copied" : "▣ Copy link"}
         </button>
       </div>
-
       {copyError ? (
-        <div className="text-xs text-[color-mix(in_srgb,_var(--color-accent)_80%,_transparent)]">
+        <div
+          role="alert"
+          className="mt-2 font-mono text-[10px] text-white"
+        >
           {copyError}
         </div>
       ) : null}
+      <span className="sr-only" aria-live="polite">
+        {copied ? "Repository link copied to clipboard." : ""}
+      </span>
     </div>
   );
 };

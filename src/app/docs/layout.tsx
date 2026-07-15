@@ -11,13 +11,20 @@ export default async function DocsLayout({
   const docsNavigation = await getDocsNavigation();
 
   return (
-    <PageChrome containerClassName="page-shell--wide w-full px-6 md:px-10 lg:px-16 flex flex-col gap-10 pt-16">
-      <div className="grid gap-10 lg:grid-cols-[220px_1fr]">
-        <aside className="flex flex-col gap-2 text-xs text-[color-mix(in_srgb,_var(--color-muted)_70%,_transparent)]">
-          <DocsSidebar sections={docsNavigation} />
-        </aside>
+    <PageChrome containerClassName="!max-w-[1440px] !px-0 !pt-0 !pb-0">
+      <div className="border-x border-[var(--color-border)] bg-[#f5f8f7] max-sm:border-x-0">
+        <div className="flex min-h-12 items-center justify-between border-b border-[var(--color-border)] px-5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#82949e] sm:px-7">
+          <span className="text-[var(--color-accent)]">〉 Documentation</span>
+          <span className="hidden sm:block">Guides / Reference</span>
+        </div>
 
-        <div className="flex flex-col gap-10">{children}</div>
+        <div className="grid min-w-0 overflow-hidden lg:grid-cols-[240px_minmax(0,1fr)] xl:grid-cols-[240px_minmax(0,1fr)_260px]">
+          <aside className="min-w-0 border-b border-[var(--color-border)] bg-[#f8faf9] lg:border-r lg:border-b-0">
+          <DocsSidebar sections={docsNavigation} />
+          </aside>
+
+          {children}
+        </div>
       </div>
     </PageChrome>
   );

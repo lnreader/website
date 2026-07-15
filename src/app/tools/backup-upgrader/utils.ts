@@ -36,13 +36,12 @@ export const fetchPlugins = async (): Promise<ReadonlyArray<PluginInfo>> => {
             id: sanitizeString(entry.id),
             name: sanitizeString(entry.name),
             site: sanitizeString(entry.site),
-            iconUrl: sanitizeString(entry.iconUrl),
             lang: sanitizeString(entry.lang) ?? undefined,
           }
         : undefined
     )
     .filter((plugin): plugin is PluginInfo =>
-      Boolean(plugin?.id && plugin?.name && plugin?.site && plugin?.iconUrl)
+      Boolean(plugin?.id && plugin?.name && plugin?.site)
     )
     .filter((plugin) => plugin.id !== "komga");
 };

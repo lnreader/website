@@ -2,7 +2,6 @@ export interface PluginInfo {
   readonly id: string;
   readonly name: string;
   readonly site: string;
-  readonly iconUrl: string;
   readonly lang: string;
 }
 

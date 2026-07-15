@@ -16,7 +16,7 @@ export async function generateMetadata(): Promise<{
 }
 
 export default async function GettingStartedPage(): Promise<ReactElement> {
-  const { content, headings } = await getDocBySlug("getting-started");
+  const { content, headings, metadata } = await getDocBySlug("getting-started");
 
-  return <DocArticle content={content} headings={headings} />;
+  return <DocArticle content={content} headings={headings} metadata={metadata} />;
 }
