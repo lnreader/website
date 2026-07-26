@@ -39,24 +39,6 @@
   --font-mono: var(--font-mono-base);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-    --background: #060708;
-    --background-soft: #0c0e11;
-    --surface: #13161b;
-    --surface-muted: #1a1d23;
-    --foreground: #e8edf5;
-    --muted: #8f9aaa;
-    --accent: #2b7f96;
-    --accent-strong: #1d6378;
-    --accent-soft: rgba(43, 127, 150, 0.18);
-    --outline: rgba(45, 52, 64, 0.45);
-    --border: rgba(55, 63, 77, 0.48);
-    --shadow-soft: rgba(6, 8, 12, 0.6);
-  }
-}
-
 * {
   box-sizing: border-box;
 }
