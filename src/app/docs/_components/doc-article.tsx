@@ -39,7 +39,7 @@ const DocArticle = async ({ content, headings, metadata }: DocArticleProps) => {
 
           <div className="mt-8 flex flex-col gap-3 border-t border-[var(--color-border)] pt-5 font-mono text-[9px] font-medium uppercase tracking-[0.08em] text-[#82949e] sm:flex-row sm:items-center sm:justify-between">
             <span>{metadata.section} · {sectionNumber}</span>
-            <a href={`https://github.com/LNReader/lnreader-web/edit/main/src/content/docs/${metadata.slug}.mdx`} className="text-[var(--color-foreground)] no-underline hover:text-[var(--color-accent)]">Edit this page on GitHub ↗</a>
+            <a href={metadata.editUrl ?? `https://github.com/LNReader/lnreader-web/edit/main/src/content/docs/${metadata.slug}.mdx`} className="text-[var(--color-foreground)] no-underline hover:text-[var(--color-accent)]">Edit this page on GitHub ↗</a>
           </div>
         </div>
       </article>

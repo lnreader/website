@@ -70,26 +70,37 @@ function SectionHeading({
   );
 }
 
+const CALLOUT_VARIANTS: Record<string, "tip" | "warn"> = {
+  NOTE: "tip",
+  TIP: "tip",
+  IMPORTANT: "warn",
+  WARNING: "warn",
+  CAUTION: "warn",
+};
+
 function MarkdownBlockquote({
   children,
   ...props
 }: ComponentPropsWithoutRef<"blockquote">): ReactElement {
-  const marker = textContent(children).trimStart().match(/^\[!(TIP|WARNING)\]\s*/u);
+  const marker = textContent(children)
+    .trimStart()
+    .match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/u);
 
   if (!marker) {
     return <blockquote {...props}>{children}</blockquote>;
   }
 
-  const variant = marker[1] === "WARNING" ? "warn" : "tip";
+  const label = marker[1];
+  const variant = CALLOUT_VARIANTS[label];
   const cleanedChildren = stripLeadingText(
     children,
-    /^\s*\[!(?:TIP|WARNING)\]\s*/u
+    /^\s*\[!(?:NOTE|TIP|IMPORTANT|WARNING|CAUTION)\]\s*/u
   );
 
   return (
     <aside className={`md-callout md-callout--${variant}`}>
       <span className="md-callout__tag">
-        {variant === "warn" ? "Warn" : "Tip"}
+        {label.charAt(0) + label.slice(1).toLowerCase()}
       </span>
       <div>{cleanedChildren}</div>
       {variant === "tip" && (

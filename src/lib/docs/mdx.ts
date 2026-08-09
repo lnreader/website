@@ -8,8 +8,11 @@ import remarkGfm from "remark-gfm";
 import matter from "gray-matter";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import type { Root, RootContent, Element } from "hast";
 import { docsMdxComponents } from "@/app/docs/_components/markdown-components";
+import { createHeadingCollector, type DocHeading } from "@/lib/docs/heading-collector";
+import { getExternalDocsMetadata } from "@/lib/github/plugin-docs";
+
+export type { DocHeading } from "@/lib/docs/heading-collector";
 
 const docsDirectory = path.join(process.cwd(), "src/content/docs");
 
@@ -28,6 +31,8 @@ export interface DocMetadata {
   readonly section: string;
   readonly order: number;
   readonly sectionOrder: number;
+  /** Overrides the default "edit this page" link for docs not sourced from src/content/docs. */
+  readonly editUrl?: string;
 }
 
 export interface DocNavigationSection {
@@ -38,12 +43,6 @@ export interface DocNavigationSection {
 export interface DocNavigationLink {
   readonly href: string;
   readonly label: string;
-}
-
-export interface DocHeading {
-  readonly id: string;
-  readonly title: string;
-  readonly level: number;
 }
 
 const DEFAULT_SECTION = "Guides";
@@ -80,88 +79,6 @@ export async function getDocBySlug(slug: string): Promise<{
   return { metadata, content, headings };
 }
 
-function createHeadingCollector(headings: Array<DocHeading>) {
-  return () => (tree: Root) => {
-    collectHeadings(tree, headings, { section: 0 });
-  };
-}
-
-function extractText(node: Element): string {
-  const parts: Array<string> = [];
-
-  (node.children ?? []).forEach((child) => {
-    if (child.type === "text") {
-      const value = child.value;
-
-      if (value) {
-        parts.push(String(value));
-      }
-
-      return;
-    }
-
-    if (child.type === "element") {
-      const nested = extractText(child);
-
-      if (nested) {
-        parts.push(nested);
-      }
-    }
-  });
-
-  return parts.join(" ").replace(/\s+/gu, " ").trim();
-}
-
-function collectHeadings(
-  node: Root | Element,
-  headings: Array<DocHeading>,
-  state: { section: number }
-): void {
-  if (node.type === "element") {
-    if (isHeading(node)) {
-      if (node.tagName === "h2") {
-        state.section += 1;
-        node.properties = {
-          ...node.properties,
-          "data-n": String(state.section).padStart(2, "0"),
-        };
-      }
-
-      const id = node.properties?.id;
-
-      if (typeof id === "string") {
-        const title = extractText(node);
-
-        if (title) {
-          headings.push({
-            id,
-            title,
-            level: Number.parseInt(node.tagName.replace("h", ""), 10),
-          });
-        }
-      }
-    }
-
-    node.children?.forEach((child) => {
-      if (child.type === "element") {
-        collectHeadings(child, headings, state);
-      }
-    });
-
-    return;
-  }
-
-  node.children.forEach((child: RootContent) => {
-    if (child.type === "element") {
-      collectHeadings(child, headings, state);
-    }
-  });
-}
-
-function isHeading(node: Element): boolean {
-  return Boolean(node.tagName && /^h[1-6]$/u.test(node.tagName));
-}
-
 export async function getDocMetadata(slug: string): Promise<DocMetadata> {
   const filePath = path.join(docsDirectory, `${slug}.mdx`);
   const source = await readFileOrNotFound(filePath);
@@ -173,12 +90,14 @@ export async function getDocMetadata(slug: string): Promise<DocMetadata> {
 export async function getAllDocMetadata(): Promise<ReadonlyArray<DocMetadata>> {
   const fileNames = await getDocFileNames();
 
-  const docs = await Promise.all(
+  const localDocs = await Promise.all(
     fileNames.map(async (fileName) => {
       const slug = fileName.replace(/\.mdx$/u, "");
       return getDocMetadata(slug);
     })
   );
+
+  const docs = [...localDocs, ...getExternalDocsMetadata()];
 
   return docs.sort((a, b) => {
     if (a.sectionOrder !== b.sectionOrder) {
