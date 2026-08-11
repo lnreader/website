@@ -20,7 +20,7 @@ const links = {
   app: "https://github.com/LNReader/lnreader",
   releases: "https://github.com/LNReader/lnreader/releases",
   nightly: "https://github.com/LNReader/lnreader/actions",
-  sources: "https://github.com/LNReader/lnreader-sources",
+  sources: "https://github.com/LNReader/lnreader-plugins",
 };
 
 const capabilities = [
@@ -107,11 +107,11 @@ export default function LandingPage() {
               </span>
               <i />
               <span>
-                <strong>500k+</strong> downloads
+                <strong>1M+</strong> downloads
               </span>
               <i />
               <span>
-                <strong>115</strong> contributors
+                <strong>150</strong> contributors
               </span>
             </div>
           </section>
@@ -137,11 +137,11 @@ export default function LandingPage() {
                   <small>PLUGINS</small>
                 </div>
                 <div>
-                  <strong>500k+</strong>
+                  <strong>1M+</strong>
                   <small>DOWNLOADS</small>
                 </div>
                 <div>
-                  <strong>115</strong>
+                  <strong>150</strong>
                   <small>CONTRIBUTORS</small>
                 </div>
               </div>
@@ -195,7 +195,7 @@ export default function LandingPage() {
                 </div>
               </div>
               <div className="my-[22px_18px] flex items-baseline gap-2.5 [&_strong]:font-mono [&_strong]:text-[28px] [&_strong]:font-bold [&_span]:text-[13px] [&_span]:text-[#6a7d88]">
-                <strong>500k+</strong>
+                <strong>1M+</strong>
                 <span>downloads from readers worldwide</span>
               </div>
               <CopyControl value={links.sources} className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors w-full bg-transparent hover:bg-[#dfeaea]">
@@ -371,15 +371,15 @@ export default function LandingPage() {
             </div>
             <div className="grid grid-cols-2 border-t border-l border-dashed border-[rgba(14,116,144,.45)] [&>div]:flex [&>div]:min-h-[98px] [&>div]:flex-col [&>div]:justify-center [&>div]:border-r [&>div]:border-b [&>div]:border-dashed [&>div]:border-[rgba(14,116,144,.45)] [&>div]:p-[18px] [&_strong]:font-mono [&_strong]:text-[25px] [&_strong]:font-bold [&_strong]:text-[#0e7490] [&_span]:text-[13px] [&_span]:text-[#516470]">
               <div>
-                <strong>2.7k</strong>
+                <strong>2.8k</strong>
                 <span>GitHub stars</span>
               </div>
               <div>
-                <strong>36</strong>
+                <strong>~44</strong>
                 <span>releases</span>
               </div>
               <div>
-                <strong>115</strong>
+                <strong>150</strong>
                 <span>contributors</span>
               </div>
               <div>

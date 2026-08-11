@@ -8,6 +8,7 @@ export interface GitHubRelease {
   readonly name: string;
   readonly publishedAt: string;
   readonly tagName: string;
+  readonly prerelease: boolean;
   readonly anchor: string;
   readonly assets: ReadonlyArray<{
     readonly label: string;
@@ -52,6 +53,7 @@ export async function fetchReleases(): Promise<{
     id: release.id,
     name: release.name,
     tagName: release.tag_name,
+    prerelease: release.prerelease,
     anchor: `release-${release.tag_name}`.replace(/[^a-zA-Z0-9-_]/gu, "-"),
     publishedAt: formatDate(release.published_at),
     assets: release.assets.map((asset) => ({
@@ -61,7 +63,10 @@ export async function fetchReleases(): Promise<{
     notes: release.body,
   }));
 
-  const updatedAt = releases[0]?.publishedAt ?? null;
+  const updatedAt =
+    releases.find((release) => !release.prerelease)?.publishedAt ??
+    releases[0]?.publishedAt ??
+    null;
 
   return { releases, updatedAt };
 }

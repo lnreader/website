@@ -15,8 +15,9 @@ export default function ReleasesList({
   releases,
   updatedAt,
 }: ReleasesListProps) {
-  const [selectedId, setSelectedId] = useState(releases[0]?.id);
-  const latestRelease = releases[0];
+  const latestRelease =
+    releases.find((release) => !release.prerelease) ?? releases[0];
+  const [selectedId, setSelectedId] = useState(latestRelease?.id);
   const selectedRelease =
     releases.find((release) => release.id === selectedId) ?? latestRelease;
   const latestAsset = latestRelease?.assets[0];
@@ -122,7 +123,7 @@ export default function ReleasesList({
               {latestRelease.tagName}
             </h2>
             <span className="mb-1 border border-[color-mix(in_srgb,var(--color-accent)_35%,transparent)] px-2 py-1 font-mono text-[9px] uppercase tracking-[0.16em] text-[var(--color-accent)]">
-              Stable
+              {latestRelease.prerelease ? "Pre-release" : "Stable"}
             </span>
           </div>
           <p className="mt-4 font-[family-name:var(--font-display)] text-sm leading-6 text-[var(--color-muted)]">
@@ -186,6 +187,11 @@ export default function ReleasesList({
                 className={`h-2 w-2 shrink-0 ${selectedRelease.id === release.id ? "bg-white" : "bg-[#cfdbdf]"}`}
               />
               <span className="flex-1">{release.tagName}</span>
+              {release.prerelease ? (
+                <span className="text-[9px] uppercase text-[#84959f]">
+                  Pre
+                </span>
+              ) : null}
               <span className="text-[9px] text-[#84959f]">
                 {release.publishedAt.replace(/, \d{4}$/u, "")}
               </span>

@@ -14,8 +14,9 @@ LNReader thrives on community contributions. Whether you are fixing a typo, addi
 
 Make sure your workstation can build and run the Android app:
 
-- **Node.js 18+** (use [`nvm`](https://github.com/nvm-sh/nvm) if you juggle versions)
-- **Java 15+** (optionally managed with [`jenv`](https://www.jenv.be/))
+- **Node.js 20+** (use [`nvm`](https://github.com/nvm-sh/nvm) if you juggle versions)
+- **pnpm 10+** (the repository pins pnpm through Corepack)
+- **Java** compatible with the current Android toolchain
 - **Android SDK & platform tools** from [Android Studio](https://developer.android.com/studio)
 
 ## Set Up Your Fork
@@ -26,13 +27,14 @@ Make sure your workstation can build and run the Android app:
    ```bash
    git clone https://github.com/<your-username>/lnreader.git
    cd lnreader
-   npm install
+   corepack enable
+   pnpm install
    ```
 
 3. Verify you can produce a release build (this also validates your toolchain):
 
    ```bash
-   npm run buildRelease
+   pnpm run build:release:android
    ```
 
 If the Gradle build fails, confirm the Android SDK path and Java version are set correctly.
@@ -49,20 +51,20 @@ If the Gradle build fails, confirm the Android SDK path and Java version are set
 3. Start the Metro bundler:
 
    ```bash
-   npm start
+   pnpm run dev:start
    ```
 
 4. In another terminal, install and launch the app:
 
    ```bash
-   npm run android
+   pnpm run dev:android
    ```
 
 Metro supports fast refresh—save a file, then press `r` in the Metro window if you need a manual reload.
 
 ## Coding Workflow
 
-- Create feature branches off the latest `main`.
+- Create feature branches off the latest `master`.
 - Keep pull requests focused and include screenshots or recordings for UI changes.
 - Reference related GitHub issues in commit messages and PR descriptions.
 
@@ -71,7 +73,8 @@ Metro supports fast refresh—save a file, then press `r` in the Metro window if
 - **Linting**: Run ESLint locally before opening a PR.
 
   ```bash
-  npm run lint
+  pnpm run lint
+  pnpm run type-check
   ```
 
 - **Formatting**: Follow the existing TypeScript and React Native conventions. Configure your editor with Prettier/ESLint integration for consistent formatting.
@@ -80,7 +83,7 @@ Metro supports fast refresh—save a file, then press `r` in the Metro window if
 ## Where to Help
 
 - **Bug fixes**: Look for issues labelled `bug` or `help wanted` in GitHub.
-- **Plugins & sources**: Improve existing plugins or propose new ones in the [`lnreader-sources`](https://github.com/LNReader/lnreader-sources) repository.
+- **Plugins & sources**: Improve existing plugins or propose new ones in the [`lnreader-plugins`](https://github.com/LNReader/lnreader-plugins) repository.
 - **Documentation**: Refine guides like this one to make onboarding easier for the next contributor.
 
 ## Localization

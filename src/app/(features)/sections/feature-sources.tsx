@@ -54,14 +54,14 @@ export default function FeatureSources(): ReactElement {
         <div>
           Maintained at
           <Link
-            href="https://github.com/LNReader/lnreader-sources"
+            href="https://github.com/LNReader/lnreader-plugins"
             className="ml-2 font-semibold text-[var(--color-accent-strong)] hover:text-[var(--color-accent)] transition-colors"
           >
-            LNReader/lnreader-sources
+            LNReader/lnreader-plugins
           </Link>
         </div>
         <Link
-          href="https://github.com/LNReader/lnreader-sources/issues"
+          href="https://github.com/LNReader/lnreader-plugins/issues"
           className="inline-flex items-center justify-center rounded-sm border border-[var(--color-border)] px-3 py-1.5 text-xs font-semibold text-[var(--color-accent-strong)] hover:bg-[var(--color-accent-soft)] transition-colors"
         >
           Request a source

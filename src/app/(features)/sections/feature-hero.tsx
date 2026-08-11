@@ -11,12 +11,12 @@ const metricCards = [
   },
   {
     label: "Downloads",
-    value: "500k+",
+    value: "1M+",
     description: "Readers switching from proprietary apps",
   },
   {
     label: "Contributors",
-    value: "33",
+    value: "150",
     description: "Developers improving LNReader together",
   },
 ];
