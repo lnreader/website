@@ -1,3 +1,4 @@
+import { siteStats } from "@/lib/site-stats";
 import Link from "next/link";
 import type { ReactElement } from "react";
 
@@ -8,7 +9,7 @@ const sourceHighlights: Array<{
   {
     title: "Global catalogue",
     detail:
-      "200+ community-maintained plugins covering EN, JP, VN, FR, ES, and more.",
+      `${siteStats.plugins} community-maintained plugins covering EN, JP, VN, FR, ES, and more.`,
   },
   {
     title: "Self-hosted plugins",

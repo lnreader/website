@@ -1,12 +1,14 @@
 "use client";
 
+import { siteStats } from "@/lib/site-stats";
+
 import Link from "next/link";
 import type { ReactElement } from "react";
 
 const metricCards = [
   {
     label: "Plugins",
-    value: "200+",
+    value: siteStats.plugins,
     description: "Community-maintained sources ready to install",
   },
   {
@@ -16,7 +18,7 @@ const metricCards = [
   },
   {
     label: "Contributors",
-    value: "150",
+    value: siteStats.contributors,
     description: "Developers improving LNReader together",
   },
 ];

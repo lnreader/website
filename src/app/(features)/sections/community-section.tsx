@@ -1,3 +1,4 @@
+import { siteStats } from "@/lib/site-stats";
 import type { ReactElement } from "react";
 
 const highlights = [
@@ -51,8 +52,8 @@ export default function CommunitySection(): ReactElement {
             Contributor stats
           </span>
           <ul className="grid gap-1.5">
-            <li>150 contributors across the app and plugin repositories</li>
-            <li>2.8k GitHub stars · ~44 releases</li>
+            <li>{siteStats.contributors} contributors across the app and plugin repositories</li>
+            <li>{siteStats.stars} GitHub stars · ~44 releases</li>
             <li>Active Discord with source authors &amp; maintainers</li>
           </ul>
         </div>

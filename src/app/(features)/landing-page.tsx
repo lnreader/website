@@ -1,5 +1,7 @@
 "use client";
 
+import { siteStats } from "@/lib/site-stats";
+
 import Link from "next/link";
 import { useState } from "react";
 import {
@@ -83,8 +85,16 @@ export default function LandingPage() {
       mainClassName="overflow-x-clip bg-[#eff4f4]"
     >
         <div className="mx-auto w-full max-w-[1232px] border-x border-[rgba(20,40,55,.14)] max-[680px]:border-x-0">
-          <section className="relative isolate flex min-h-[660px] flex-col items-center justify-center overflow-hidden border-b border-[rgba(20,40,55,.14)] px-9 pt-[72px] pb-[58px] text-center max-[680px]:min-h-[630px] max-[680px]:px-[22px] max-[680px]:pt-16 max-[680px]:pb-12 [&>h1]:m-0 [&>h1]:max-w-[980px] [&>h1]:text-[72px] [&>h1]:leading-[.98] [&>h1]:font-medium [&>h1]:tracking-[-.055em] [&>h1]:text-balance max-[680px]:[&>h1]:text-[clamp(45px,13vw,58px)] [&>h1_span]:text-[#0e7490] [&>p]:mx-auto [&>p]:mt-7 [&>p]:max-w-[720px] [&>p]:text-[17px] [&>p]:leading-[1.55] [&>p]:text-[#516470] [&>p]:text-balance max-[680px]:[&>p]:text-[15px]">
+          <section
+            onPointerMove={(event) => {
+              if (event.pointerType === "touch") return;
+              const bounds = event.currentTarget.getBoundingClientRect();
+              event.currentTarget.style.setProperty("--pointer-x", `${event.clientX - bounds.left}px`);
+              event.currentTarget.style.setProperty("--pointer-y", `${event.clientY - bounds.top}px`);
+            }}
+            className="hero-interactive relative isolate flex min-h-[660px] flex-col items-center justify-center overflow-hidden border-b border-[rgba(20,40,55,.14)] px-9 pt-[72px] pb-[58px] text-center max-[680px]:min-h-[630px] max-[680px]:px-[22px] max-[680px]:pt-16 max-[680px]:pb-12 [&>h1]:m-0 [&>h1]:max-w-[980px] [&>h1]:text-[72px] [&>h1]:leading-[.98] [&>h1]:font-medium [&>h1]:tracking-[-.055em] [&>h1]:text-balance max-[680px]:[&>h1]:text-[clamp(45px,13vw,58px)] [&>h1_span]:text-[#0e7490] [&>p]:mx-auto [&>p]:mt-7 [&>p]:max-w-[720px] [&>p]:text-[17px] [&>p]:leading-[1.55] [&>p]:text-[#516470] [&>p]:text-balance max-[680px]:[&>p]:text-[15px]">
             <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle,rgba(14,116,144,.25)_1px,transparent_1.4px)] bg-[length:18px_18px] [mask-image:linear-gradient(to_right,#000_0%,transparent_31%,transparent_69%,#000_100%)] after:absolute after:inset-0 after:content-[''] after:bg-[linear-gradient(to_bottom,#eff4f4_0%,transparent_28%,transparent_73%,#eff4f4_100%)]" aria-hidden="true" />
+            <div className="hero-hover-dots" aria-hidden="true" />
             <h1>
               The open-source light novel reader for Android<span>.</span>
             </h1>
@@ -103,7 +113,7 @@ export default function LandingPage() {
             </div>
             <div className="mt-[58px] flex items-center justify-center gap-[22px] text-[13px] text-[#6a7d88] max-[680px]:mt-[42px] max-[680px]:flex-wrap max-[680px]:gap-x-4 max-[680px]:gap-y-3 [&>span]:flex [&>span]:items-baseline [&>span]:gap-1.5 [&_strong]:font-mono [&_strong]:text-base [&_strong]:font-medium [&_strong]:text-[#16242e] [&>i]:h-[18px] [&>i]:w-px [&>i]:bg-[rgba(20,40,55,.14)] max-[680px]:[&>i]:hidden">
               <span>
-                <strong>200+</strong> community plugins
+                <strong>{siteStats.plugins}</strong> community plugins
               </span>
               <i />
               <span>
@@ -111,7 +121,7 @@ export default function LandingPage() {
               </span>
               <i />
               <span>
-                <strong>150</strong> contributors
+                <strong>{siteStats.contributors}</strong> contributors
               </span>
             </div>
           </section>
@@ -133,7 +143,7 @@ export default function LandingPage() {
               </p>
               <div className="relative mb-[25px] grid grid-cols-3 border border-dashed border-white/40 [&>div]:border-r [&>div]:border-dashed [&>div]:border-white/40 [&>div]:p-[17px_13px] max-[680px]:[&>div]:p-[14px_8px] [&>div:last-child]:border-r-0 [&_strong]:block [&_strong]:font-mono [&_strong]:text-[clamp(22px,2.4vw,30px)] max-[680px]:[&_strong]:text-[21px] [&_small]:mt-[7px] [&_small]:block [&_small]:font-mono [&_small]:text-[9px] [&_small]:tracking-[.1em] [&_small]:text-[#bfe6ea] max-[680px]:[&_small]:text-[7px]">
                 <div>
-                  <strong>200+</strong>
+                  <strong>{siteStats.plugins}</strong>
                   <small>PLUGINS</small>
                 </div>
                 <div>
@@ -141,7 +151,7 @@ export default function LandingPage() {
                   <small>DOWNLOADS</small>
                 </div>
                 <div>
-                  <strong>150</strong>
+                  <strong>{siteStats.contributors}</strong>
                   <small>CONTRIBUTORS</small>
                 </div>
               </div>
@@ -173,7 +183,7 @@ export default function LandingPage() {
                   <b>
                     ▸ <span>Global catalogue</span>
                   </b>
-                  <small>200+ sources</small>
+                  <small>{siteStats.plugins} sources</small>
                 </div>
                 <div>
                   <b>
@@ -371,7 +381,7 @@ export default function LandingPage() {
             </div>
             <div className="grid grid-cols-2 border-t border-l border-dashed border-[rgba(14,116,144,.45)] [&>div]:flex [&>div]:min-h-[98px] [&>div]:flex-col [&>div]:justify-center [&>div]:border-r [&>div]:border-b [&>div]:border-dashed [&>div]:border-[rgba(14,116,144,.45)] [&>div]:p-[18px] [&_strong]:font-mono [&_strong]:text-[25px] [&_strong]:font-bold [&_strong]:text-[#0e7490] [&_span]:text-[13px] [&_span]:text-[#516470]">
               <div>
-                <strong>2.8k</strong>
+                <strong>{siteStats.stars}</strong>
                 <span>GitHub stars</span>
               </div>
               <div>
@@ -379,7 +389,7 @@ export default function LandingPage() {
                 <span>releases</span>
               </div>
               <div>
-                <strong>150</strong>
+                <strong>{siteStats.contributors}</strong>
                 <span>contributors</span>
               </div>
               <div>

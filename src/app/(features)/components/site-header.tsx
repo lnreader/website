@@ -4,6 +4,7 @@ import { clsx } from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
+import GitHubStars from "./github-stars";
 
 const navigation = [
   { href: "/", label: "Features" },
@@ -53,9 +54,10 @@ export default function SiteHeader() {
           <div className="flex gap-2.5">
             <a
               href={githubUrl}
-              className="hidden min-h-10 items-center border border-[var(--color-border)] bg-[#f7faf9] px-[18px] py-2.5 font-mono text-xs font-medium uppercase text-[var(--color-foreground)]! no-underline! transition-colors hover:bg-[#dfeaea] md:inline-flex"
+              className="hidden min-h-10 items-center gap-2.5 border border-[var(--color-border)] bg-[#f7faf9] px-[18px] py-2.5 font-mono text-xs font-medium uppercase text-[var(--color-foreground)]! no-underline! transition-colors hover:bg-[#dfeaea] md:inline-flex"
             >
               GitHub
+              <GitHubStars />
             </a>
             <a
               href={releasesUrl}

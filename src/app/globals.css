@@ -81,6 +81,25 @@ main {
   width: min(1360px, 100%);
 }
 
+/* Keep the hover grid aligned with the hero's existing 18px dot pattern. */
+.hero-hover-dots {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  background-image: radial-gradient(circle, rgba(14, 116, 144, .65) 1.7px, transparent 2px);
+  background-size: 18px 18px;
+  mask-image: radial-gradient(circle 180px at var(--pointer-x, -200px) var(--pointer-y, -200px), #000, transparent);
+  transition: opacity 240ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hero-interactive:hover .hero-hover-dots {
+    opacity: 1;
+  }
+}
+
 .hero-grid {
   display: grid;
   gap: clamp(1.6rem, 3.2vw, 2.6rem);
