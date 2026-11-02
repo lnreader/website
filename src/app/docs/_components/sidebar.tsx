@@ -38,6 +38,7 @@ export default function DocsSidebar({
                 <Link
                   key={href}
                   href={href}
+                  aria-current={isActive ? "page" : undefined}
                   className={clsx(
                     "flex min-h-12 items-center gap-3 border-r border-[var(--color-border)] px-5 font-[family-name:var(--font-display)] text-[13px] font-medium no-underline transition-colors last:border-r-0 lg:min-h-[51px] lg:border-r-0 lg:border-b lg:px-6",
                     isActive

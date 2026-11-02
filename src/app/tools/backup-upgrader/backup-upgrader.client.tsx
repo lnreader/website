@@ -4,6 +4,8 @@ import { ArrowDownToLine, Circle, Copy, Upload } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { ChangeEvent, DragEvent, ReactElement } from "react";
 
+import { useClipboardFeedback } from "@/components/use-clipboard-feedback";
+
 import type { BackupMigrationResult, OldBackupEntry, PluginInfo } from "./types";
 import {
   createDownloadBlob,
@@ -43,7 +45,8 @@ export default function BackupUpgraderClient(): ReactElement {
   const [uploadState, setUploadState] = useState<UploadState>({ status: "idle" });
   const [migrationResult, setMigrationResult] =
     useState<BackupMigrationResult>();
-  const [copied, setCopied] = useState(false);
+  const { copied, error: copyError, animated, copy } = useClipboardFeedback(2000);
+  const [copiedKind, setCopiedKind] = useState("Plugin name");
   const [dragging, setDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -136,19 +139,6 @@ export default function BackupUpgraderClient(): ReactElement {
     },
     [plugins.length, processFile, uploadState.status],
   );
-
-  const copyPlugin = useCallback((plugin: PluginInfo) => {
-    navigator.clipboard
-      .writeText(plugin.name)
-      .then(() => setCopied(true))
-      .catch(() => setCopied(false));
-  }, []);
-
-  useEffect(() => {
-    if (!copied) return undefined;
-    const timeoutId = window.setTimeout(() => setCopied(false), 2000);
-    return () => window.clearTimeout(timeoutId);
-  }, [copied]);
 
   const migratedCount = migrationResult?.migratedNovels.length ?? 0;
   const missingCount = migrationResult?.unmatchedEntries.length ?? 0;
@@ -373,7 +363,7 @@ export default function BackupUpgraderClient(): ReactElement {
             type="button"
             disabled={uploadDisabled}
             onClick={() => fileInputRef.current?.click()}
-            className="mt-7 min-h-12 w-full bg-[var(--color-accent)] px-5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-accent-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-60"
+            className="press-feedback mt-7 min-h-12 w-full bg-[var(--color-accent)] px-5 font-mono text-[11px] font-medium uppercase tracking-[0.1em] text-white transition-colors hover:bg-[var(--color-accent-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] disabled:cursor-not-allowed disabled:opacity-60"
           >
             {uploadState.status === "loading"
               ? uploadState.message
@@ -415,14 +405,16 @@ export default function BackupUpgraderClient(): ReactElement {
           <p className="font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-[#84959f]">
             Step 02 — Result
           </p>
-          {copied ? (
-            <div
-              role="status"
-              className="fixed top-24 right-6 z-50 bg-[var(--color-accent)] px-4 py-3 font-mono text-[10px] font-medium uppercase text-white"
-            >
-              Plugin name copied
-            </div>
-          ) : null}
+          <div
+            aria-hidden="true"
+            className="copy-status fixed top-24 right-6 z-50 max-w-[calc(100vw-3rem)] bg-[var(--color-accent)] px-4 py-3 font-mono text-[10px] font-medium uppercase text-white"
+            data-visible={copied}
+            data-animated={animated}
+          >
+            {copiedKind} copied
+          </div>
+          <span role="status" className="sr-only">{copied ? `${copiedKind} copied` : ""}</span>
+          {copyError && <p role="alert" className="mt-4 text-sm text-[var(--color-muted)]">{copyError}</p>}
 
           {migrationResult ? (
             <div className="mt-7 flex flex-col gap-8">
@@ -455,7 +447,10 @@ export default function BackupUpgraderClient(): ReactElement {
                       <li key={plugin.id}>
                         <button
                           type="button"
-                          onClick={() => copyPlugin(plugin)}
+                          onClick={(event) => {
+                            setCopiedKind("Plugin name");
+                            void copy(plugin.name, event.detail > 0);
+                          }}
                           className="flex min-h-14 w-full items-center gap-3 border border-[var(--color-border)] bg-white px-3 py-2 text-left hover:border-[var(--color-accent)] hover:bg-[var(--color-accent-soft)] focus-visible:outline-2 focus-visible:outline-[var(--color-accent)]"
                         >
                           <span className="min-w-0">
@@ -489,7 +484,10 @@ export default function BackupUpgraderClient(): ReactElement {
                 </a>
                 <button
                   type="button"
-                  onClick={() => navigator.clipboard.writeText(pluginsSourceUrl)}
+                  onClick={(event) => {
+                    setCopiedKind("Repository link");
+                    void copy(pluginsSourceUrl, event.detail > 0);
+                  }}
                   className="inline-flex min-h-11 w-full items-center justify-center gap-2 border border-[var(--color-border)] px-5 font-mono text-[10px] font-medium uppercase hover:border-[var(--color-accent)]"
                 >
                   <Copy size={13} /> Copy repository link

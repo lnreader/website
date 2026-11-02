@@ -1,11 +1,12 @@
 "use client";
 
-import { ChevronDown, Copy, Search } from "lucide-react";
+import { Check, ChevronDown, Copy, Search } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { FC } from "react";
 
 import AddRepositoryActions from "@/app/plugins/add-repository-actions";
 import type { PluginSummary } from "@/app/plugins/types";
+import { useClipboardFeedback } from "@/components/use-clipboard-feedback";
 
 interface PluginsExplorerProps {
   readonly repositoryUrl: string;
@@ -22,6 +23,7 @@ const PluginsExplorer: FC<PluginsExplorerProps> = ({
   const [query, setQuery] = useState("");
   const [language, setLanguage] = useState("");
   const [visibleCount, setVisibleCount] = useState(pageSize);
+  const { copied, error: copyError, copy } = useClipboardFeedback();
 
   const languages = useMemo(() => {
     const counts = new Map<string, number>();
@@ -123,13 +125,27 @@ const PluginsExplorer: FC<PluginsExplorerProps> = ({
             </span>
             Official manifest
           </p>
-          <div className="relative mt-7 flex min-w-0 items-center gap-3 border border-[var(--color-border)] bg-white px-5 py-4 font-mono text-[11px] text-[var(--color-muted)] sm:text-xs">
+          <button
+            type="button"
+            aria-label="Copy official manifest URL"
+            title={repositoryUrl}
+            onClick={(event) => copy(repositoryUrl, event.detail > 0)}
+            className="relative mt-7 flex w-full min-w-0 cursor-pointer items-center gap-3 border border-[var(--color-border)] bg-white px-5 py-4 text-left font-mono text-[11px] text-[var(--color-muted)] transition-colors hover:border-[var(--color-accent)] hover:bg-[var(--color-accent-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--color-accent)] sm:text-xs"
+          >
             <span className="text-[var(--color-accent)]">$</span>
             <span className="min-w-0 flex-1 truncate">{repositoryUrl}</span>
-            <Copy size={14} className="shrink-0 text-[#8a9ba5]" aria-hidden />
+            {copied ? (
+              <span className="flex shrink-0 items-center gap-1.5 text-[var(--color-accent)]">
+                <Check size={14} aria-hidden /> Copied
+              </span>
+            ) : (
+              <Copy size={14} className="shrink-0 text-[var(--color-accent)]" aria-hidden />
+            )}
             <span className="absolute -top-1.5 -left-1.5 h-2.5 w-2.5 bg-[var(--color-accent)]" />
             <span className="absolute -right-1.5 -bottom-1.5 h-2.5 w-2.5 bg-[var(--color-accent)]" />
-          </div>
+          </button>
+          <span role="status" className="sr-only">{copied ? "Official manifest URL copied." : ""}</span>
+          {copyError && <p role="alert" className="mt-2 text-sm text-[var(--color-muted)]">{copyError}</p>}
           <p className="mt-9 border-b border-dotted border-[var(--color-border)] pb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-[#84959f]">
             How to add a repository
           </p>
@@ -254,7 +270,7 @@ const PluginsExplorer: FC<PluginsExplorerProps> = ({
         </div>
       ) : (
         <>
-          <div className="hidden grid-cols-[100px_1fr_180px_260px] border-b border-[var(--color-border)] bg-white px-7 py-4 font-mono text-[9px] uppercase tracking-[0.18em] text-[#84959f] md:grid">
+          <div className="hidden grid-cols-[64px_minmax(0,1fr)_100px_160px] gap-x-3 border-b border-[var(--color-border)] bg-white px-7 py-4 font-mono text-[9px] uppercase tracking-[0.18em] text-[#84959f] md:grid">
             <span>Index</span>
             <span>Name</span>
             <span>Version</span>
@@ -264,13 +280,13 @@ const PluginsExplorer: FC<PluginsExplorerProps> = ({
             {visiblePlugins.map(({ id, name, version, lang }, index) => (
               <li
                 key={id}
-                className="grid min-h-[76px] grid-cols-[56px_1fr] items-center gap-x-3 border-b border-[var(--color-border)] px-5 py-4 sm:px-7 md:grid-cols-[100px_1fr_180px_260px]"
+                className="grid min-h-[76px] grid-cols-[56px_1fr] items-center gap-x-3 border-b border-[var(--color-border)] px-5 py-4 sm:px-7 md:grid-cols-[64px_minmax(0,1fr)_100px_160px]"
               >
                 <span className="font-mono text-[10px] text-[#a6b7bf]">
                   [{String(index + 1).padStart(3, "0")}]
                 </span>
                 <strong className="min-w-0 font-[family-name:var(--font-display)] text-[15px] font-semibold tracking-[-0.02em]">
-                  {name}
+                  <span className="[overflow-wrap:anywhere]">{name}</span>
                 </strong>
                 <span className="col-start-2 mt-1 font-mono text-[10px] text-[var(--color-muted)] md:col-start-auto md:mt-0 md:text-xs">
                   v{version.replace(/^v/u, "")}

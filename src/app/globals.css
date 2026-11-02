@@ -1,6 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@400;500;600;700&display=swap");
 @import "tailwindcss";
 
+html {
+  scrollbar-gutter: stable;
+}
+
 :root {
   color-scheme: light;
   font-size: 15px;
@@ -18,6 +22,79 @@
   --shadow-soft: rgba(18, 41, 60, 0.05);
   --radius-md: 0.35rem;
   --radius-sm: 0.25rem;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Anchor destinations must clear the sticky site header. */
+.md :is(h1, h2, h3, h4)[id] {
+  scroll-margin-top: 96px;
+}
+
+.press-feedback {
+  transition: background-color 150ms ease, color 150ms ease,
+    transform 120ms var(--ease-out), opacity 100ms var(--ease-out);
+}
+
+.press-feedback:active:not(:focus-visible):not(:disabled) {
+  transform: scale(0.98);
+}
+
+.press-feedback:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.copy-label {
+  display: inline-grid;
+}
+
+.copy-label > span {
+  grid-area: 1 / 1;
+  transition: opacity 120ms var(--ease-out);
+}
+
+.copy-label > span:last-child,
+.copy-label[data-copied="true"] > span:first-child {
+  opacity: 0;
+}
+
+.copy-label[data-copied="true"] > span:last-child {
+  opacity: 1;
+}
+
+.copy-status {
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 120ms var(--ease-out), transform 120ms var(--ease-out);
+}
+
+.copy-status[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+  transition-duration: 160ms;
+}
+
+.copy-label[data-animated="false"] > span,
+.copy-status[data-animated="false"] {
+  transition: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .press-feedback:active:not(:focus-visible):not(:disabled) {
+    transform: none;
+    opacity: 0.85;
+  }
+
+  .copy-label > span {
+    transition-duration: 80ms;
+  }
+
+  .copy-status[data-animated="true"],
+  .copy-status[data-animated="true"][data-visible="true"] {
+    transform: none;
+    transition-duration: 100ms;
+  }
 }
 
 @theme inline {

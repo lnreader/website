@@ -3,7 +3,8 @@
 import { siteStats } from "@/lib/site-stats";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useClipboardFeedback } from "@/components/use-clipboard-feedback";
+import CopyLabel from "@/components/copy-label";
 import {
   ArrowLeft,
   Braces,
@@ -52,18 +53,16 @@ function CopyControl({
   children: React.ReactNode;
   className: string;
 }) {
-  const [copied, setCopied] = useState(false);
-
-  async function copy() {
-    await navigator.clipboard.writeText(value);
-    setCopied(true);
-    window.setTimeout(() => setCopied(false), 1500);
-  }
+  const { copied, error, animated, copy } = useClipboardFeedback();
 
   return (
-    <button type="button" className={className} onClick={copy}>
-      {copied ? "Copied ✓" : children}
-    </button>
+    <div>
+      <button type="button" className={`press-feedback ${className}`} onClick={(event) => copy(value, event.detail > 0)}>
+        <CopyLabel copied={copied} animated={animated}>{children}</CopyLabel>
+      </button>
+      <span className="sr-only" role="status">{copied ? "Sources repository link copied." : ""}</span>
+      {error && <p role="alert" className="mt-2 text-sm">{error}</p>}
+    </div>
   );
 }
 
@@ -104,10 +103,10 @@ export default function LandingPage() {
               belongs—on your device.
             </p>
             <div className="mt-[34px] flex justify-center gap-3 max-[680px]:w-full max-[680px]:flex-col [&_a]:min-h-[50px] [&_a]:min-w-[190px]">
-              <a className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors border-[#0e7490] bg-[#0e7490] text-white! hover:bg-[#0a6179]" href={links.releases}>
+              <a className="press-feedback inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors border-[#0e7490] bg-[#0e7490] text-white! hover:bg-[#0a6179]" href={links.releases}>
                 Download LNReader <span>→</span>
               </a>
-              <a className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors bg-[#f7faf9] hover:bg-[#dfeaea]" href={links.app}>
+              <a className="press-feedback inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors bg-[#f7faf9] hover:bg-[#dfeaea]" href={links.app}>
                 View source
               </a>
             </div>
@@ -128,14 +127,14 @@ export default function LandingPage() {
 
           <Band label="WHAT WE DO" index="01" />
           <section className="grid grid-cols-2 border-b border-[rgba(20,40,55,.14)] max-[980px]:grid-cols-1">
-            <div className="relative overflow-hidden border-r border-[rgba(20,40,55,.14)] bg-[#0e7490] p-[38px] text-white max-[980px]:border-r-0 max-[980px]:border-b max-[680px]:p-[30px_22px] [&>h1]:relative [&>h1]:mb-[18px] [&>h1]:max-w-[520px] [&>h1]:text-[clamp(43px,4.2vw,54px)] [&>h1]:leading-[.99] [&>h1]:tracking-[-.045em] max-[680px]:[&>h1]:text-[43px] [&>p]:relative [&>p]:mb-7 [&>p]:max-w-[470px] [&>p]:text-[15.5px] [&>p]:leading-[1.55] [&>p]:text-[#d6eef0] before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle,rgba(255,255,255,.22)_1px,transparent_1.2px)] before:bg-[length:14px_14px] before:opacity-60 before:content-['']">
+            <div className="relative overflow-hidden border-r border-[rgba(20,40,55,.14)] bg-[#0e7490] p-[38px] text-white max-[980px]:border-r-0 max-[980px]:border-b max-[680px]:p-[30px_22px] [&>h2]:relative [&>h2]:mb-[18px] [&>h2]:max-w-[520px] [&>h2]:text-[clamp(43px,4.2vw,54px)] [&>h2]:leading-[.99] [&>h2]:tracking-[-.045em] max-[680px]:[&>h2]:text-[43px] [&>p]:relative [&>p]:mb-7 [&>p]:max-w-[470px] [&>p]:text-[15.5px] [&>p]:leading-[1.55] [&>p]:text-[#d6eef0] before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(circle,rgba(255,255,255,.22)_1px,transparent_1.2px)] before:bg-[length:14px_14px] before:opacity-60 before:content-['']">
               <div className="relative mb-[29px] flex items-center gap-2.5 font-mono text-[10px] font-bold tracking-[.14em] [&>span]:grid [&>span]:h-[26px] [&>span]:w-[26px] [&>span]:shrink-0 [&>span]:place-items-center [&>span]:border [&>span]:border-white/50 [&_svg]:h-3.5 [&_svg]:w-3.5">
                 <span>
                   <Braces aria-hidden="true" />
                 </span>{" "}
                 FOR READERS &amp; TINKERERS
               </div>
-              <h1>A light novel reader with the craft of a native IDE.</h1>
+              <h2>A light novel reader with the craft of a native IDE.</h2>
               <p>
                 Curate sources, tune the reading experience, and keep everything
                 on your device—no ads, no lock-in, just community-built
@@ -158,7 +157,7 @@ export default function LandingPage() {
               <div className="relative mb-5 font-mono text-xs font-medium text-[#cfeef0]">
                 Open source · MIT · built for Android
               </div>
-              <a className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors relative min-h-[49px] w-full border-0 bg-[#f5f8f7] text-[#0e7490]!" href={links.releases}>
+              <a className="press-feedback inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors relative min-h-[49px] w-full border-0 bg-[#f5f8f7] text-[#0e7490]!" href={links.releases}>
                 Download the APK →
               </a>
             </div>
@@ -261,7 +260,7 @@ export default function LandingPage() {
               <div className="relative mb-[18px] flex items-center gap-2.5 font-mono text-[10px] font-bold tracking-[.14em] text-[#8a9aa3] [&>span]:grid [&>span]:h-[19px] [&>span]:w-[19px] [&>span]:place-items-center [&>span]:border [&>span]:border-[#b3c0c7] [&>span]:text-[#0e7490]">
                 <span>◑</span> FIG. 01 — IMMERSIVE READER
               </div>
-              <div className="relative mx-auto h-[430px] w-full max-w-[320px] overflow-hidden p-[10px] text-[#0e7490] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-10 after:h-16 after:bg-gradient-to-b after:from-transparent after:to-[#eef1f4] after:content-[''] [&>i]:z-20">
+              <div role="img" aria-label="Illustration of the LNReader reading screen" className="relative mx-auto h-[430px] w-full max-w-[320px] overflow-hidden p-[10px] text-[#0e7490] after:pointer-events-none after:absolute after:inset-x-0 after:bottom-0 after:z-10 after:h-16 after:bg-gradient-to-b after:from-transparent after:to-[#eef1f4] after:content-[''] [&>i]:z-20">
                 <CropMarks />
                 <div className="!rounded-[42px] border border-[#9eb4b8] bg-[#d5e2e2] p-[7px] shadow-[0_24px_48px_-34px_rgba(20,40,55,.55)]">
                   <div className="relative h-[590px] overflow-hidden !rounded-[35px] border border-[rgba(20,40,55,.16)] bg-[#f5f8f7] text-[#24343a]">
@@ -274,16 +273,16 @@ export default function LandingPage() {
                     </div>
 
                     <div className="flex h-[50px] items-center justify-between border-y border-[rgba(20,40,55,.14)] bg-[#eef4f3] px-3">
-                      <button type="button" aria-label="Back to library" className="grid h-8 w-8 place-items-center text-[#516470]">
+                      <span aria-hidden="true" className="grid h-8 w-8 place-items-center text-[#516470]">
                         <ArrowLeft size={17} strokeWidth={1.8} />
-                      </button>
+                      </span>
                       <div className="min-w-0 text-center">
                         <strong className="block truncate text-[11px] font-semibold">The Lantern in the East</strong>
                         <span className="font-mono text-[7px] uppercase tracking-[.12em] text-[#7d898d]">Chapter 14 · The Long Road</span>
                       </div>
-                      <button type="button" aria-label="Reader menu" className="grid h-8 w-8 place-items-center text-[#516470]">
+                      <span aria-hidden="true" className="grid h-8 w-8 place-items-center text-[#516470]">
                         <MoreVertical size={17} strokeWidth={1.8} />
-                      </button>
+                      </span>
                     </div>
 
                     <article className="h-[414px] overflow-hidden px-7 pt-8 text-left">
@@ -317,7 +316,7 @@ export default function LandingPage() {
                         </div>
                         <span className="font-mono text-[7px] text-[#7d898d]">18 min</span>
                       </div>
-                      <nav aria-label="Reader controls" className="grid grid-cols-5 text-[#617176]">
+                      <div aria-hidden="true" className="grid grid-cols-5 text-[#617176]">
                         {[
                           { icon: List, label: "Chapters" },
                           { icon: Search, label: "Search" },
@@ -325,17 +324,17 @@ export default function LandingPage() {
                           { icon: SunMedium, label: "Theme" },
                           { icon: Settings2, label: "More" },
                         ].map(({ icon: Icon, label }) => (
-                          <button key={label} type="button" className="flex flex-col items-center gap-1 py-1 text-[7px]">
+                          <span key={label} className="flex flex-col items-center gap-1 py-1 text-[7px]">
                             <Icon size={14} strokeWidth={1.7} />
                             <span>{label}</span>
-                          </button>
+                          </span>
                         ))}
-                      </nav>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="relative mt-[17px] flex items-center gap-2 font-mono text-[11px] font-medium text-[#0e7490] [&>i]:h-[13px] [&>i]:w-[7px] [&>i]:animate-pulse [&>i]:bg-[#0e7490]">
+              <div className="relative mt-[17px] flex items-center gap-2 font-mono text-[11px] font-medium text-[#0e7490] [&>i]:h-[13px] [&>i]:w-[7px] [&>i]:bg-[#0e7490]">
                 ▸ paged · continuous · distraction-free <i />
               </div>
             </div>
@@ -410,13 +409,13 @@ export default function LandingPage() {
               reading in minutes.
             </p>
             <div className="flex flex-wrap justify-center gap-[11px] max-[680px]:flex-col [&_a]:min-h-[46px] [&_a]:px-[25px]">
-              <a className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors border-[#0e7490] bg-[#0e7490] text-white! hover:bg-[#0a6179]" href={links.releases}>
+              <a className="press-feedback inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors border-[#0e7490] bg-[#0e7490] text-white! hover:bg-[#0a6179]" href={links.releases}>
                 Latest release →
               </a>
-              <Link className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors bg-[#f7faf9] hover:bg-[#dfeaea]" href="/docs/getting-started">
+              <Link className="press-feedback inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors bg-[#f7faf9] hover:bg-[#dfeaea]" href="/docs/getting-started">
                 Read the docs
               </Link>
-              <a className="inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors bg-[#f7faf9] hover:bg-[#dfeaea]" href={links.nightly}>
+              <a className="press-feedback inline-flex min-h-10 items-center justify-center border border-[rgba(20,40,55,.22)] px-[18px] py-2.5 font-[family-name:var(--font-display)] text-sm font-medium transition-colors bg-[#f7faf9] hover:bg-[#dfeaea]" href={links.nightly}>
                 Nightly builds
               </a>
             </div>

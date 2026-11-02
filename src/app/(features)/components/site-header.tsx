@@ -3,7 +3,7 @@
 import { clsx } from "clsx";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import GitHubStars from "./github-stars";
 
 const navigation = [
@@ -20,9 +20,38 @@ const releasesUrl = `${githubUrl}/releases`;
 export default function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const headerRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setOpen(false);
+        toggleRef.current?.focus();
+      }
+    }
+    function onPointerDown(event: PointerEvent) {
+      if (event.target instanceof Node && !headerRef.current?.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+    const desktop = window.matchMedia("(min-width: 768px)");
+    function onResize() {
+      if (desktop.matches) setOpen(false);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    document.addEventListener("pointerdown", onPointerDown);
+    desktop.addEventListener("change", onResize);
+    return () => {
+      document.removeEventListener("keydown", onKeyDown);
+      document.removeEventListener("pointerdown", onPointerDown);
+      desktop.removeEventListener("change", onResize);
+    };
+  }, [open]);
 
   return (
-    <div className="sticky top-0 z-50">
+    <div ref={headerRef} className="sticky top-0 z-50">
       <header className="min-h-[76px] border-b border-[var(--color-border)] bg-[color-mix(in_srgb,var(--color-background)_95%,transparent)] px-[clamp(20px,3vw,36px)] backdrop-blur-[12px]">
         <div className="mx-auto flex min-h-[76px] w-full max-w-[1232px] items-center justify-between">
           <Link href="/" className="flex items-center gap-[11px] text-inherit! no-underline!">
@@ -40,6 +69,7 @@ export default function SiteHeader() {
                 <Link
                   key={href}
                   href={href}
+                  aria-current={active ? "page" : undefined}
                   className={clsx(
                     "text-[color-mix(in_srgb,var(--color-foreground)_72%,transparent)]! no-underline! transition-colors hover:text-[var(--color-foreground)]!",
                     active && "text-[var(--color-foreground)]!",
@@ -67,6 +97,8 @@ export default function SiteHeader() {
             </a>
             <button
               type="button"
+              ref={toggleRef}
+              aria-controls="mobile-navigation"
               aria-label="Toggle navigation"
               aria-expanded={open}
               onClick={() => setOpen((value) => !value)}
@@ -79,7 +111,7 @@ export default function SiteHeader() {
       </header>
 
       {open && (
-        <nav aria-label="Mobile navigation" className="grid grid-cols-2 border-b border-[var(--color-border)] bg-[#f5f8f7] md:hidden">
+        <nav id="mobile-navigation" aria-label="Mobile navigation" className="grid grid-cols-2 border-b border-[var(--color-border)] bg-[#f5f8f7] md:hidden">
           {[...navigation, { href: githubUrl, label: "GitHub" }].map(
             ({ href, label }) => (
               <Link
